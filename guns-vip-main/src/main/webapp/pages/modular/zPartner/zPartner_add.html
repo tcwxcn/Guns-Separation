@@ -1,0 +1,34 @@
+@layout("/common/_form.html",{js:["/assets/modular/zPartner/zPartner_add.js"],css:["/assets/expand/module/formSelects/formSelects-v4.css"]}){
+
+<form class="layui-form" id="zPartnerForm" lay-filter="zPartnerForm">
+    <div class="layui-fluid" style="padding-bottom: 75px;">
+        <div class="layui-card">
+            <div class="layui-card-header">基本信息</div>
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-row">
+                    <input name="partnerId" type="hidden"/>
+
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">图片地址<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="picAddress" name="picAddress" placeholder="请输入图片地址" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">备注<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="remark" name="remark" placeholder="请输入备注" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group-bottom text-center">
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>&emsp;提交&emsp;</button>
+        <button type="reset" class="layui-btn layui-btn-primary" id="cancel">&emsp;取消&emsp;</button>
+    </div>
+
+</form>
+
+@}

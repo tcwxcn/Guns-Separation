@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.oauth2.mapper.OauthUserInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.base.oauth2.entity.OauthUserInfo">
+        <id column="oauth_id" property="oauthId" />
+        <result column="user_id" property="userId" />
+        <result column="nick_name" property="nickName" />
+        <result column="avatar" property="avatar" />
+        <result column="blog" property="blog" />
+        <result column="company" property="company" />
+        <result column="location" property="location" />
+        <result column="email" property="email" />
+        <result column="remark" property="remark" />
+        <result column="gender" property="gender" />
+        <result column="source" property="source" />
+        <result column="token" property="token" />
+        <result column="uuid" property="uuid" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        oauth_id AS "oauthId", user_id AS "userId", nick_name AS "nickName", avatar AS "avatar", blog AS "blog", company AS "company", location AS "location", email AS "email", remark AS "remark", gender AS "gender", source AS "source", token AS "token", uuid AS "uuid", create_time AS "createTime", create_user AS "createUser", update_time AS "updateTime", update_user AS "updateUser"
+    </sql>
+
+
+    <select id="customList" resultType="cn.stylefeng.guns.base.oauth2.model.result.OauthUserInfoResult" parameterType="cn.stylefeng.guns.base.oauth2.model.params.OauthUserInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from oauth_user_info where 1 = 1
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.base.oauth2.model.params.OauthUserInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from oauth_user_info where 1 = 1
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.base.oauth2.model.result.OauthUserInfoResult" parameterType="cn.stylefeng.guns.base.oauth2.model.params.OauthUserInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from oauth_user_info where 1 = 1
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.base.oauth2.model.params.OauthUserInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from oauth_user_info where 1 = 1
+    </select>
+
+</mapper>

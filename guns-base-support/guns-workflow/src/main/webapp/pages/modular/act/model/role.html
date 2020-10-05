@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+    <title>Activiti Editor</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="${ctxPath}/assets/common/libs/layui/css/layui.css?v=${constants.getReleaseVersion()}"/>
+    <link rel="stylesheet" href="${ctxPath}/assets/common/module/admin.css?v=${constants.getReleaseVersion()}" media="all"/>
+    <link rel="stylesheet" href="${ctxPath}/assets/expand/css/style.css?v=${constants.getReleaseVersion()}" media="all"/>
+</head>
+<body>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            <div class="layui-form-item">
+                <input id="roleId" value="" type="hidden"/>
+                <div class="layui-inline">
+                    <input id="name" class="layui-input" type="text" placeholder="角色名称"/>
+                </div>
+                <div class="layui-inline">
+                    <button id="btnSearch" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+                </div>
+            </div>
+        </div>
+        <table class="layui-table" id="selectRoleTable" lay-filter="selectRoleTable"></table>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var Feng = {
+        ctxPath: "${ctxPath}",
+        version: '${constants.getReleaseVersion()}'
+    };
+</script>
+
+<script type="text/javascript" src="${ctxPath}/assets/common/libs/layui/layui.js?v=${constants.getReleaseVersion()}"></script>
+<script type="text/javascript" src="${ctxPath}/assets/common/js/common.js?v=${constants.getReleaseVersion()}"></script>
+<script>
+    layui.use(['jquery', 'table'], function () {
+
+        var $ = layui.jquery;
+        var table = layui.table;
+
+        var SelectRoleTable = {
+            tableId: 'selectRoleTable'
+        };
+
+        SelectRoleTable.initColumn = function () {
+            return [[
+                {type: 'numbers', title: 'No'},
+                {field: "id", hide: true, title: 'id'},
+                {field: "name", title: '角色名'},
+                {field: "description", title: '描述'}
+            ]]
+        };
+
+        // 搜索按钮点击事件
+        $('#btnSearch').click(function () {
+            SelectRoleTable.search();
+        });
+
+        /**
+         * 点击查询按钮
+         */
+        SelectRoleTable.search = function () {
+            var queryData = {};
+            queryData['name'] = $("#name").val();
+            table.reload(SelectRoleTable.tableId, {
+                where: queryData, page: {curr: 1}
+            });
+        };
+
+        table.render({
+            elem: '#' + SelectRoleTable.tableId,
+            url: Feng.ctxPath + '/role/listRole',
+            page: true,
+            height: "full-98",
+            cellMinWidth: 100,
+            cols: SelectRoleTable.initColumn()
+        });
+
+        table.on('rowDouble(selectRoleTable)', function (obj) {
+            //缓存roleId
+            top.layui.data('tempIndex', {
+                key: 'roleId', value: obj.data.id
+            });
+
+            //关闭窗口
+            top.layer.close(top.layui.data('tempIndex').roleIndex);
+        });
+    });
+</script>
+

@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.workflow.modular.mapper.TaskRunningMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.workflow.modular.entity.RuTask">
+        <id column="ID_" property="id"/>
+        <result column="REV_" property="rev"/>
+        <result column="EXECUTION_ID_" property="executionId"/>
+        <result column="PROC_INST_ID_" property="procInstId"/>
+        <result column="PROC_DEF_ID_" property="procDefId"/>
+        <result column="NAME_" property="name"/>
+        <result column="PARENT_TASK_ID_" property="parentTaskId"/>
+        <result column="DESCRIPTION_" property="description"/>
+        <result column="TASK_DEF_KEY_" property="taskDefKey"/>
+        <result column="OWNER_" property="owner"/>
+        <result column="ASSIGNEE_" property="assignee"/>
+        <result column="DELEGATION_" property="delegation"/>
+        <result column="PRIORITY_" property="priority"/>
+        <result column="CREATE_TIME_" property="createTime"/>
+        <result column="DUE_DATE_" property="dueDate"/>
+        <result column="CATEGORY_" property="category"/>
+        <result column="SUSPENSION_STATE_" property="suspensionState"/>
+        <result column="TENANT_ID_" property="tenantId"/>
+        <result column="FORM_KEY_" property="formKey"/>
+        <result column="CLAIM_TIME_" property="claimTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID_ AS "id", REV_ AS "rev", EXECUTION_ID_ AS "executionId", PROC_INST_ID_ AS "procInstId", PROC_DEF_ID_ AS "procDefId", NAME_ AS "name", PARENT_TASK_ID_ AS "parentTaskId", DESCRIPTION_ AS "description", TASK_DEF_KEY_ AS "taskDefKey", OWNER_ AS "owner", ASSIGNEE_ AS "assignee", DELEGATION_ AS "delegation", PRIORITY_ AS "priority", CREATE_TIME_ AS "createTime", DUE_DATE_ AS "dueDate", CATEGORY_ AS "category", SUSPENSION_STATE_ AS "suspensionState", TENANT_ID_ AS "tenantId", FORM_KEY_ AS "formKey", CLAIM_TIME_ AS "claimTime"
+    </sql>
+
+    <!-- ACT_HI_TASKINST -->
+    <sql id="n">
+      ID_ AS "id_",
+      PROC_DEF_ID_ AS "proc_def_id_",
+      TASK_DEF_KEY_ AS "task_def_key_",
+      PROC_INST_ID_ AS "proc_inst_id_",
+      EXECUTION_ID_ AS "execution_id_",
+      NAME_ AS "name_",
+      PARENT_TASK_ID_ AS "parent_task_id_",
+      DESCRIPTION_ AS "description_",
+      OWNER_ AS "owner_",
+      ASSIGNEE_ AS "assignee_",
+      START_TIME_ AS "start_time_",
+      CLAIM_TIME_ AS "claim_time_",
+      END_TIME_ AS "end_time_",
+      DURATION_ AS "duration_",
+      DELETE_REASON_ AS "delete_reason_",
+      PRIORITY_ AS "priority_",
+      DUE_DATE_ AS "due_date_",
+      FORM_KEY_ AS "form_key_",
+      CATEGORY_ AS "category_",
+      TENANT_ID_ AS "tenant_id_"
+    </sql>
+
+    <select id="hitasklist" resultType="map">
+        select
+        f.*,
+        p.NAME_ pname_ ,
+        p.DEPLOYMENT_ID_ deployment_id_,
+        p.DGRM_RESOURCE_NAME_ dgrm_resource_name_
+        from
+        (
+        select
+        <include refid="n"/>
+        from ACT_HI_TASKINST n
+        where (
+        n.ASSIGNEE_ = #{pd.username}
+        or
+        n.ASSIGNEE_ in ${pd.rnumbers}
+        )
+        group by n.EXECUTION_ID_
+
+        ) f
+        left join
+        ACT_RE_PROCDEF p
+        on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            or
+            f.NAME_ LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            or
+            f.ASSIGNEE_ LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.lastStart != null and pd.lastStart != ''"><!-- 开始时间检索 -->
+            and f.END_TIME_ &gt;= CONCAT(#{pd.lastStart},' 00:00:00')
+        </if>
+        <if test="pd.lastEnd != null and pd.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.END_TIME_ &lt;= CONCAT(#{pd.lastEnd},' 23:59:59')
+        </if>
+        <if test="pd.username != null and pd.username != ''"><!-- 办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{pd.username}
+            or
+            f.ASSIGNEE_ in ${pd.rnumbers}
+            )
+        </if>
+        and f.END_TIME_ is not NULL
+        order by f.END_TIME_ desc
+    </select>
+
+    <select id="hitasklist" resultType="map" databaseId="mssql">
+        select
+        f.*,
+        p.NAME_ pname_ ,
+        p.DEPLOYMENT_ID_ deployment_id_,
+        p.DGRM_RESOURCE_NAME_ dgrm_resource_name_
+        from
+        (
+        select
+        <include refid="n"/>
+        from ACT_HI_TASKINST n
+        where (
+        n.ASSIGNEE_ = #{pd.username}
+        or
+        n.ASSIGNEE_ in ${pd.rnumbers}
+        )
+        group by n.EXECUTION_ID_
+
+        ) f
+        left join
+        ACT_RE_PROCDEF p
+        on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            or
+            f.NAME_ LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            or
+            f.ASSIGNEE_ LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.lastStart != null and pd.lastStart != ''"><!-- 开始时间检索 -->
+            and f.END_TIME_ &gt;= CONCAT(#{pd.lastStart},' 00:00:00')
+        </if>
+        <if test="pd.lastEnd != null and pd.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.END_TIME_ &lt;= CONCAT(#{pd.lastEnd},' 23:59:59')
+        </if>
+        <if test="pd.username != null and pd.username != ''"><!-- 办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{pd.username}
+            or
+            f.ASSIGNEE_ in ${pd.rnumbers}
+            )
+        </if>
+        and f.END_TIME_ is not NULL
+        order by f.END_TIME_ desc
+    </select>
+
+    <select id="hitasklist" resultType="map" databaseId="pgsql">
+        select
+        f.*,
+        p.NAME_ pname_ ,
+        p.DEPLOYMENT_ID_ deployment_id_,
+        p.DGRM_RESOURCE_NAME_ dgrm_resource_name_
+        from
+        (
+            select
+            n.EXECUTION_ID_,n.ASSIGNEE_,n.NAME_,n.END_TIME_,n.PROC_DEF_ID_,n.DURATION_,n.ID_,n.TASK_DEF_KEY_,n.PROC_INST_ID_,n.PARENT_TASK_ID_
+            ,n.DESCRIPTION_,n.OWNER_,n.START_TIME_,n.CLAIM_TIME_,n.DELETE_REASON_,n.PRIORITY_,DUE_DATE_,n.FORM_KEY_,n.CATEGORY_,n.TENANT_ID_
+            from ACT_HI_TASKINST n
+            where (
+            n.ASSIGNEE_ = #{pd.username}
+            or
+            n.ASSIGNEE_ in ${pd.rnumbers}
+            )
+            group by n.EXECUTION_ID_,n.ASSIGNEE_,n.NAME_,n.END_TIME_,n.PROC_DEF_ID_,n.DURATION_,n.ID_,n.TASK_DEF_KEY_,n.PROC_INST_ID_,n.PARENT_TASK_ID_
+            ,n.DESCRIPTION_,n.OWNER_,n.START_TIME_,n.CLAIM_TIME_,n.DELETE_REASON_,n.PRIORITY_,DUE_DATE_,n.FORM_KEY_,n.CATEGORY_,n.TENANT_ID_
+        ) f
+        left join
+        ACT_RE_PROCDEF p
+        on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE '%' || #{pd.keywords} || '%'
+            or
+            f.NAME_ LIKE '%' || #{pd.keywords} || '%'
+            or
+            f.ASSIGNEE_ LIKE '%' || #{pd.keywords} || '%'
+            )
+        </if>
+        <if test="pd.lastStart != null and pd.lastStart != ''"><!-- 开始时间检索 -->
+            and f.END_TIME_ &gt;= to_timestamp(#{pd.lastStart}||' 00:00:00','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="pd.lastEnd != null and pd.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.END_TIME_ &lt;= to_timestamp(#{pd.lastEnd}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="pd.username != null and pd.username != ''"><!-- 办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{pd.username}
+            or
+            f.ASSIGNEE_ in ${pd.rnumbers}
+            )
+        </if>
+        and f.END_TIME_ is not NULL
+        order by f.END_TIME_ desc
+    </select>
+
+    <select id="hitasklist" resultType="map" databaseId="oracle">
+        select
+        f.*,
+        p.NAME_ "pname_" ,
+        p.DEPLOYMENT_ID_ "deployment_id_",
+        p.DGRM_RESOURCE_NAME_ "dgrm_resource_name_"
+        from
+        (
+            select
+            <include refid="n"/>
+            from ACT_HI_TASKINST n
+            where (
+            n.ASSIGNEE_ = #{pd.username}
+            or
+            n.ASSIGNEE_ in ${pd.rnumbers}
+            )
+            group by n.EXECUTION_ID_,n.ASSIGNEE_,n.NAME_,n.END_TIME_,n.PROC_DEF_ID_,n.DURATION_,n.ID_,n.TASK_DEF_KEY_,n.PROC_INST_ID_,n.PARENT_TASK_ID_
+            ,n.DESCRIPTION_,n.OWNER_,n.START_TIME_,n.CLAIM_TIME_,n.DELETE_REASON_,n.PRIORITY_,DUE_DATE_,n.FORM_KEY_,n.CATEGORY_,n.TENANT_ID_
+        ) f
+        left join
+        ACT_RE_PROCDEF p
+        on f."proc_def_id_" = p.ID_
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.name_ LIKE '%' || #{pd.keywords} || '%'
+            or
+            f."name_" LIKE '%' || #{pd.keywords} || '%'
+            or
+            f."assignee_" LIKE '%' || #{pd.keywords} || '%'
+            )
+        </if>
+        <if test="pd.lastStart != null and pd.lastStart != ''"><!-- 开始时间检索 -->
+            and f."end_time_" &gt;= to_date(#{pd.lastStart}||' 00:00:00','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="pd.lastEnd != null and pd.lastEnd != ''"><!-- 结束时间检索 -->
+            and f."end_time_" &lt;= to_date(#{pd.lastEnd}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="pd.username != null and pd.username != ''"><!-- 办理人检索 -->
+            and
+            (
+            f."assignee_" = #{pd.username}
+            or
+            f."assignee_" in ${pd.rnumbers}
+            )
+        </if>
+        and f."end_time_" is not NULL
+        order by f."end_time_" desc
+    </select>
+
+    <select id="customList" resultType="cn.stylefeng.guns.workflow.modular.model.result.RuTaskResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam">
+        select
+        <include refid="Base_Column_List"/>
+        from act_ru_task where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like CONCAT('%',#{paramCondition.name},'%')
+        </if>
+    </select>
+
+    <select id="customMapList" resultType="map"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam">
+        select
+        <include refid="Base_Column_List"/>
+        from act_ru_task where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like CONCAT('%',#{paramCondition.name},'%')
+        </if>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.RuTaskResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam">
+        select
+        f.ID_ AS "id", f.REV_ AS "rev", f.EXECUTION_ID_ AS "executionId", f.PROC_INST_ID_ AS "procInstId",
+        f.PROC_DEF_ID_ AS "procDefId", f.NAME_ AS "name", f.PARENT_TASK_ID_ AS "parentTaskId",
+        f.DESCRIPTION_ AS "description", f.TASK_DEF_KEY_ AS "taskDefKey", f.OWNER_ AS "owner",
+        f.ASSIGNEE_ AS "assignee", f.DELEGATION_ AS "delegation", f.PRIORITY_ AS "priority", f.CREATE_TIME_ AS
+        "createTime", f.DUE_DATE_ AS "dueDate",
+        f.CATEGORY_ AS "category", f.SUSPENSION_STATE_ AS "suspensionState", f.TENANT_ID_ AS "tenantId", f.FORM_KEY_ AS
+        "formKey", f.CLAIM_TIME_ AS "claimTime",
+        p.NAME_ as "pname",
+        p.DGRM_RESOURCE_NAME_ as "dgrmResourceName"
+        from act_ru_task f
+        left join ACT_RE_PROCDEF p on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            or
+            f.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            or
+            f.ASSIGNEE_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and f.CREATE_TIME_ &gt;= #{paramCondition.lastStart}
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.CREATE_TIME_ &lt;= #{paramCondition.lastEnd}
+        </if>
+        <if test="paramCondition.username != null and paramCondition.username != ''"><!-- 当前办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{paramCondition.username}
+            or
+            f.ASSIGNEE_ in ${paramCondition.username}
+            )
+        </if>
+        order by f.CREATE_TIME_ desc
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.RuTaskResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam" databaseId="mssql">
+        select
+        f.ID_ AS "id", f.REV_ AS "rev", f.EXECUTION_ID_ AS "executionId", f.PROC_INST_ID_ AS "procInstId",
+        f.PROC_DEF_ID_ AS "procDefId", f.NAME_ AS "name", f.PARENT_TASK_ID_ AS "parentTaskId",
+        f.DESCRIPTION_ AS "description", f.TASK_DEF_KEY_ AS "taskDefKey", f.OWNER_ AS "owner",
+        f.ASSIGNEE_ AS "assignee", f.DELEGATION_ AS "delegation", f.PRIORITY_ AS "priority", f.CREATE_TIME_ AS
+        "createTime", f.DUE_DATE_ AS "dueDate",
+        f.CATEGORY_ AS "category", f.SUSPENSION_STATE_ AS "suspensionState", f.TENANT_ID_ AS "tenantId", f.FORM_KEY_ AS
+        "formKey", f.CLAIM_TIME_ AS "claimTime",
+        p.NAME_ as "pname",
+        p.DGRM_RESOURCE_NAME_ as "dgrmResourceName"
+        from act_ru_task f
+        left join ACT_RE_PROCDEF p on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            or
+            f.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            or
+            f.ASSIGNEE_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and f.CREATE_TIME_ &gt;= #{paramCondition.lastStart}
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.CREATE_TIME_ &lt;= #{paramCondition.lastEnd}
+        </if>
+        <if test="paramCondition.username != null and paramCondition.username != ''"><!-- 当前办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{paramCondition.username}
+            or
+            f.ASSIGNEE_ in ${paramCondition.username}
+            )
+        </if>
+        order by f.CREATE_TIME_ desc
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.RuTaskResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam" databaseId="pgsql">
+        select
+        f.ID_ AS "id", f.REV_ AS "rev", f.EXECUTION_ID_ AS "executionId", f.PROC_INST_ID_ AS "procInstId",
+        f.PROC_DEF_ID_ AS "procDefId", f.NAME_ AS "name", f.PARENT_TASK_ID_ AS "parentTaskId",
+        f.DESCRIPTION_ AS "description", f.TASK_DEF_KEY_ AS "taskDefKey", f.OWNER_ AS "owner",
+        f.ASSIGNEE_ AS "assignee", f.DELEGATION_ AS "delegation", f.PRIORITY_ AS "priority", f.CREATE_TIME_ AS
+        "createTime", f.DUE_DATE_ AS "dueDate",
+        f.CATEGORY_ AS "category", f.SUSPENSION_STATE_ AS "suspensionState", f.TENANT_ID_ AS "tenantId", f.FORM_KEY_ AS
+        "formKey", f.CLAIM_TIME_ AS "claimTime",
+        p.NAME_ as "pname",
+        p.DGRM_RESOURCE_NAME_ as "dgrmResourceName"
+        from act_ru_task f
+        left join ACT_RE_PROCDEF p on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            or
+            f.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            or
+            f.ASSIGNEE_ LIKE '%' || #{paramCondition.keywords} || '%'
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and f.CREATE_TIME_ &gt;= to_timestamp(#{paramCondition.lastStart}||'00:00:00','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.CREATE_TIME_ &lt;= to_timestamp(#{paramCondition.lastEnd}||'23:59:59','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.username != null and paramCondition.username != ''"><!-- 当前办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{paramCondition.username}
+            or
+            f.ASSIGNEE_ in ${paramCondition.username}
+            )
+        </if>
+        order by f.CREATE_TIME_ desc
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.RuTaskResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam" databaseId="oracle">
+        select
+        f.ID_ AS "id", f.REV_ AS "rev", f.EXECUTION_ID_ AS "executionId", f.PROC_INST_ID_ AS "procInstId",
+        f.PROC_DEF_ID_ AS "procDefId", f.NAME_ AS "name", f.PARENT_TASK_ID_ AS "parentTaskId",
+        f.DESCRIPTION_ AS "description", f.TASK_DEF_KEY_ AS "taskDefKey", f.OWNER_ AS "owner",
+        f.ASSIGNEE_ AS "assignee", f.DELEGATION_ AS "delegation", f.PRIORITY_ AS "priority", f.CREATE_TIME_ AS
+        "createTime", f.DUE_DATE_ AS "dueDate",
+        f.CATEGORY_ AS "category", f.SUSPENSION_STATE_ AS "suspensionState", f.TENANT_ID_ AS "tenantId", f.FORM_KEY_ AS
+        "formKey", f.CLAIM_TIME_ AS "claimTime",
+        p.NAME_ as "pname",
+        p.DGRM_RESOURCE_NAME_ as "dgrmResourceName"
+        from act_ru_task f
+        left join ACT_RE_PROCDEF p on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            or
+            f.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            or
+            f.ASSIGNEE_ LIKE '%' || #{paramCondition.keywords} || '%'
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and f.CREATE_TIME_ &gt;= to_date(#{paramCondition.lastStart}||'00:00:00','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.CREATE_TIME_ &lt;= to_date(#{paramCondition.lastEnd}||'23:59:59','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.username != null and paramCondition.username != ''"><!-- 当前办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{paramCondition.username}
+            or
+            f.ASSIGNEE_ in ${paramCondition.username}
+            )
+        </if>
+        order by f.CREATE_TIME_ desc
+    </select>
+
+    <select id="customPageMapList" resultType="map"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam">
+        select
+        f.ID_ AS "id", f.REV_ AS "rev", f.EXECUTION_ID_ AS "executionId", f.PROC_INST_ID_ AS "procInstId",
+        f.PROC_DEF_ID_ AS "procDefId", f.NAME_ AS "name", f.PARENT_TASK_ID_ AS "parentTaskId",
+        f.DESCRIPTION_ AS "description", f.TASK_DEF_KEY_ AS "taskDefKey", f.OWNER_ AS "owner",
+        f.ASSIGNEE_ AS "assignee", f.DELEGATION_ AS "delegation", f.PRIORITY_ AS "priority", f.CREATE_TIME_ AS
+        "createTime", f.DUE_DATE_ AS "dueDate",
+        f.CATEGORY_ AS "category", f.SUSPENSION_STATE_ AS "suspensionState", f.TENANT_ID_ AS "tenantId", f.FORM_KEY_ AS
+        "formKey", f.CLAIM_TIME_ AS "claimTime",
+        p.NAME_ as "pname",
+        p.DGRM_RESOURCE_NAME_ as "dgrmResourceName"
+        from act_ru_task f
+        left join ACT_RE_PROCDEF p on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            or
+            f.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            or
+            f.ASSIGNEE_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and f.CREATE_TIME_ &gt;= #{paramCondition.lastStart}
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.CREATE_TIME_ &lt;= #{paramCondition.lastEnd}
+        </if>
+        <if test="paramCondition.username != null and paramCondition.username != ''"><!-- 当前办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{paramCondition.username}
+            or
+            f.ASSIGNEE_ in ${paramCondition.username}
+            )
+        </if>
+        order by f.CREATE_TIME_ desc
+    </select>
+
+    <select id="customPageMapList" resultType="map"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam" databaseId="mssql">
+        select
+        f.ID_ AS "id", f.REV_ AS "rev", f.EXECUTION_ID_ AS "executionId", f.PROC_INST_ID_ AS "procInstId",
+        f.PROC_DEF_ID_ AS "procDefId", f.NAME_ AS "name", f.PARENT_TASK_ID_ AS "parentTaskId",
+        f.DESCRIPTION_ AS "description", f.TASK_DEF_KEY_ AS "taskDefKey", f.OWNER_ AS "owner",
+        f.ASSIGNEE_ AS "assignee", f.DELEGATION_ AS "delegation", f.PRIORITY_ AS "priority", f.CREATE_TIME_ AS
+        "createTime", f.DUE_DATE_ AS "dueDate",
+        f.CATEGORY_ AS "category", f.SUSPENSION_STATE_ AS "suspensionState", f.TENANT_ID_ AS "tenantId", f.FORM_KEY_ AS
+        "formKey", f.CLAIM_TIME_ AS "claimTime",
+        p.NAME_ as "pname",
+        p.DGRM_RESOURCE_NAME_ as "dgrmResourceName"
+        from act_ru_task f
+        left join ACT_RE_PROCDEF p on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            or
+            f.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            or
+            f.ASSIGNEE_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and f.CREATE_TIME_ &gt;= #{paramCondition.lastStart}
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.CREATE_TIME_ &lt;= #{paramCondition.lastEnd}
+        </if>
+        <if test="paramCondition.username != null and paramCondition.username != ''"><!-- 当前办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{paramCondition.username}
+            or
+            f.ASSIGNEE_ in ${paramCondition.username}
+            )
+        </if>
+        order by f.CREATE_TIME_ desc
+    </select>
+
+    <select id="customPageMapList" resultType="map"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam" databaseId="pgsql">
+        select
+        f.ID_ AS "id", f.REV_ AS "rev", f.EXECUTION_ID_ AS "executionId", f.PROC_INST_ID_ AS "procInstId",
+        f.PROC_DEF_ID_ AS "procDefId", f.NAME_ AS "name", f.PARENT_TASK_ID_ AS "parentTaskId",
+        f.DESCRIPTION_ AS "description", f.TASK_DEF_KEY_ AS "taskDefKey", f.OWNER_ AS "owner",
+        f.ASSIGNEE_ AS "assignee", f.DELEGATION_ AS "delegation", f.PRIORITY_ AS "priority", f.CREATE_TIME_ AS
+        "createTime", f.DUE_DATE_ AS "dueDate",
+        f.CATEGORY_ AS "category", f.SUSPENSION_STATE_ AS "suspensionState", f.TENANT_ID_ AS "tenantId", f.FORM_KEY_ AS
+        "formKey", f.CLAIM_TIME_ AS "claimTime",
+        p.NAME_ as "pname",
+        p.DGRM_RESOURCE_NAME_ as "dgrmResourceName"
+        from act_ru_task f
+        left join ACT_RE_PROCDEF p on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            or
+            f.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            or
+            f.ASSIGNEE_ LIKE '%' || #{paramCondition.keywords} || '%'
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and f.CREATE_TIME_ &gt;= to_timestamp(#{paramCondition.lastStart},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.CREATE_TIME_ &lt;= to_timestamp(#{paramCondition.lastEnd},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.username != null and paramCondition.username != ''"><!-- 当前办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{paramCondition.username}
+            or
+            f.ASSIGNEE_ in ${paramCondition.username}
+            )
+        </if>
+        order by f.CREATE_TIME_ desc
+    </select>
+
+    <select id="customPageMapList" resultType="map"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.RuTaskParam" databaseId="oracle">
+        select
+        f.ID_ AS "id", f.REV_ AS "rev", f.EXECUTION_ID_ AS "executionId", f.PROC_INST_ID_ AS "procInstId",
+        f.PROC_DEF_ID_ AS "procDefId", f.NAME_ AS "name", f.PARENT_TASK_ID_ AS "parentTaskId",
+        f.DESCRIPTION_ AS "description", f.TASK_DEF_KEY_ AS "taskDefKey", f.OWNER_ AS "owner",
+        f.ASSIGNEE_ AS "assignee", f.DELEGATION_ AS "delegation", f.PRIORITY_ AS "priority", f.CREATE_TIME_ AS
+        "createTime", f.DUE_DATE_ AS "dueDate",
+        f.CATEGORY_ AS "category", f.SUSPENSION_STATE_ AS "suspensionState", f.TENANT_ID_ AS "tenantId", f.FORM_KEY_ AS
+        "formKey", f.CLAIM_TIME_ AS "claimTime",
+        p.NAME_ as "pname",
+        p.DGRM_RESOURCE_NAME_ as "dgrmResourceName"
+        from act_ru_task f
+        left join ACT_RE_PROCDEF p on f.PROC_DEF_ID_ = p.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            or
+            f.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            or
+            f.ASSIGNEE_ LIKE '%' || #{paramCondition.keywords} || '%'
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and f.CREATE_TIME_ &gt;= to_date(#{paramCondition.lastStart},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and f.CREATE_TIME_ &lt;= to_date(#{paramCondition.lastEnd},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.username != null and paramCondition.username != ''"><!-- 当前办理人检索 -->
+            and
+            (
+            f.ASSIGNEE_ = #{paramCondition.username}
+            or
+            f.ASSIGNEE_ in ${paramCondition.username}
+            )
+        </if>
+        order by f.CREATE_TIME_ desc
+    </select>
+</mapper>

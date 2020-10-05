@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.workflow.modular.mapper.TaskHistoryMapper">
+
+    <!-- ACT_HI_ACTINST -->
+    <sql id="ht">
+      ht.ID_ AS "id_",
+      ht.PROC_DEF_ID_ AS "proc_def_id_",
+      ht.PROC_INST_ID_ AS "proc_inst_id_",
+      ht.EXECUTION_ID_ AS "execution_id_",
+      ht.ACT_ID_ AS "act_id_",
+      ht.TASK_ID_ AS "task_id_",
+      ht.CALL_PROC_INST_ID_ AS "call_proc_inst_id_",
+      ht.ACT_NAME_ AS "act_name_",
+      ht.ACT_TYPE_ AS "act_type_",
+      ht.ASSIGNEE_ AS "assignee_",
+      ht.START_TIME_ AS "start_time_",
+      ht.END_TIME_ AS "end_time_",
+      ht.DURATION_ AS "duration_",
+      ht.DELETE_REASON_ AS "delete_reason_",
+      ht.TENANT_ID_ AS "tenant_id_"
+    </sql>
+
+    <select id="historyTaskList" resultType="map">
+        select
+        <include refid="ht"/>,
+        hv.TEXT_ text_
+        from
+        ACT_HI_ACTINST ht
+        left join
+        ACT_HI_VARINST hv
+        on ht.TASK_ID_ = hv.TASK_ID_
+        where 1=1
+        <if test="PROC_INST_ID_ != null and PROC_INST_ID_ != ''"><!-- 流程实例ID -->
+            and ht.PROC_INST_ID_ = #{PROC_INST_ID_}
+        </if>
+        order by ht.ID_
+    </select>
+
+    <select id="historyTaskList" resultType="map" databaseId="mssql">
+        select
+        <include refid="ht"/>,
+        hv.TEXT_ text_
+        from
+        ACT_HI_ACTINST ht
+        left join
+        ACT_HI_VARINST hv
+        on ht.TASK_ID_ = hv.TASK_ID_
+        where 1=1
+        <if test="PROC_INST_ID_ != null and PROC_INST_ID_ != ''"><!-- 流程实例ID -->
+            and ht.PROC_INST_ID_ = #{PROC_INST_ID_}
+        </if>
+        order by ht.ID_
+    </select>
+
+    <select id="historyTaskList" resultType="map" databaseId="pgsql">
+        select
+        <include refid="ht"/>,
+        hv.TEXT_ text_
+        from
+        ACT_HI_ACTINST ht
+        left join
+        ACT_HI_VARINST hv
+        on ht.TASK_ID_ = hv.TASK_ID_
+        where 1=1
+        <if test="PROC_INST_ID_ != null and PROC_INST_ID_ != ''"><!-- 流程实例ID -->
+            and ht.PROC_INST_ID_ = #{PROC_INST_ID_}
+        </if>
+        order by ht.ID_
+    </select>
+
+    <select id="historyTaskList" resultType="map" databaseId="oracle">
+        select
+        <include refid="ht"/>,
+        hv.TEXT_ "text_"
+        from
+        ACT_HI_ACTINST ht
+        left join
+        ACT_HI_VARINST hv
+        on ht.TASK_ID_ = hv.TASK_ID_
+        where 1=1
+        <if test="PROC_INST_ID_ != null and PROC_INST_ID_ != ''"><!-- 流程实例ID -->
+            and ht.PROC_INST_ID_ = #{PROC_INST_ID_}
+        </if>
+        order by ht.ID_
+    </select>
+</mapper>

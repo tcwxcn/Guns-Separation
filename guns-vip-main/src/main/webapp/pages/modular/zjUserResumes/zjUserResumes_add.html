@@ -1,0 +1,124 @@
+@layout("/common/_form.html",{js:["/assets/modular/zjUserResumes/zjUserResumes_add.js"],css:["/assets/expand/module/formSelects/formSelects-v4.css"]}){
+
+<form class="layui-form" id="zjUserResumesForm" lay-filter="zjUserResumesForm">
+    <div class="layui-fluid" style="padding-bottom: 75px;">
+        <div class="layui-card">
+            <div class="layui-card-header">基本信息</div>
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-row">
+                    <input name="resumesId" type="hidden"/>
+
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">头像<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="avatar" name="avatar" placeholder="请输入头像" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">姓名<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="name" name="name" placeholder="请输入姓名" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">性别<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="sex" name="sex" placeholder="请输入性别" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">年龄<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="age" name="age" placeholder="请输入年龄" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">身高<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="height" name="height" placeholder="请输入身高" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">体重<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="weight" name="weight" placeholder="请输入体重" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">电话<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="phone" name="phone" placeholder="请输入电话" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">电子邮件<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="email" name="email" placeholder="请输入电子邮件" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">最高学历<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="education" name="education" placeholder="请输入最高学历" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">现居住地<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="currentAddress" name="currentAddress" placeholder="请输入现居住地" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">户口所在地<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="permanentAddress" name="permanentAddress" placeholder="请输入户口所在地" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">求职状态<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="statusJob" name="statusJob" placeholder="请输入求职状态" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">到岗时间<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="arrivalTime" name="arrivalTime" placeholder="请输入到岗时间" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">期望月薪<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="expectedMonthlySalary" name="expectedMonthlySalary" placeholder="请输入期望月薪" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">期望工作地点<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="expectedWorkplace" name="expectedWorkplace" placeholder="请输入期望工作地点" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">期望职位<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="expectedPosition" name="expectedPosition" placeholder="请输入期望职位" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">备注<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="remark" name="remark" placeholder="请输入备注" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group-bottom text-center">
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>&emsp;提交&emsp;</button>
+        <button type="reset" class="layui-btn layui-btn-primary" id="cancel">&emsp;取消&emsp;</button>
+    </div>
+
+</form>
+
+@}

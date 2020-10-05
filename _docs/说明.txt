@@ -1,0 +1,22 @@
+Guns默认用mysql作为主要数据源！
+
+其他数据库会定期适配！
+
+oracle最近适配日期：2019年11月28日
+
+sql server最近适配日期：2019年11月28日
+
+pgsql最近适配日期：2019年11月28日
+
+如果是mysql数据库:
+1.先执行guns_mysql.sql
+2.再执行guns_mysql_activiti.sql
+
+如果是其他数据库:
+1.先运行guns_xxx.sql
+2.工作流的数据库初始化，从ActivitiConfig类中打开这两行代码
+
+config.setDatabaseType(DATABASE_TYPE_XXXXX);
+config.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
+
+guns_mysql_api.sql这个用在单体前后端分离的项目上！

@@ -1,0 +1,61 @@
+@layout("/common/_form.html",{js:["/assets/modular/act/model/model_edit.js"]}){
+
+<form class="layui-form" id="modelForm" lay-filter="modelForm">
+    <div class="layui-fluid" style="padding-bottom: 75px;">
+        <div class="layui-card">
+            <div class="layui-card-header">基本信息</div>
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-row">
+                    <input name="modelId" type="hidden"/>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">模型名称<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="modelname" name="modelname"  type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">模型分类<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="category" lay-filter="category">
+                                <option value="">请选择</option>
+                                <option value="00101">办公审批</option>
+                                <option value="00102">行政审批</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">模型描述<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="description" name="description"  type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">流程名称<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="name" name="name"  type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">流程标识<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="processId" name="processId"  type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">流程作者<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="processAuthor" name="processAuthor"  type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group-bottom text-center">
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>&emsp;提交&emsp;</button>
+        <button type="reset" class="layui-btn layui-btn-primary" ew-event="closeDialog">&emsp;取消&emsp;</button>
+    </div>
+
+</form>
+
+@}

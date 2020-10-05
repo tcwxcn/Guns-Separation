@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.z_pos_info.mapper.ZPosInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.z_pos_info.entity.ZPosInfo">
+        <id column="pos_info_id" property="posInfoId" />
+        <result column="title" property="title" />
+        <result column="pos_name" property="posName" />
+        <result column="content" property="content" />
+        <result column="request" property="request" />
+        <result column="date" property="date" />
+        <result column="time" property="time" />
+        <result column="location" property="location" />
+        <result column="demand_num" property="demandNum" />
+        <result column="salary" property="salary" />
+        <result column="settlement_interval" property="settlementInterval" />
+        <result column="welfare" property="welfare" />
+        <result column="contact" property="contact" />
+        <result column="notice" property="notice" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        pos_info_id AS "posInfoId", title AS "title", pos_name AS "posName", content AS "content", request AS "request", date AS "date", time AS "time", location AS "location", demand_num AS "demandNum", salary AS "salary", settlement_interval AS "settlementInterval", welfare AS "welfare", contact AS "contact", notice AS "notice", create_time AS "createTime", update_time AS "updateTime", create_user AS "createUser", update_user AS "updateUser"
+    </sql>
+
+
+    <select id="customList" resultType="cn.stylefeng.guns.modular.z_pos_info.model.result.ZPosInfoResult" parameterType="cn.stylefeng.guns.modular.z_pos_info.model.params.ZPosInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_pos_info where 1 = 1
+            <if test="paramCondition.posName != null and paramCondition.posName != ''">
+                and pos_name like CONCAT('%',#{paramCondition.posName},'%')
+            </if>
+            <if test="paramCondition.location != null and paramCondition.location != ''">
+                and location like CONCAT('%',#{paramCondition.location},'%')
+            </if>
+            <if test="paramCondition.welfare != null and paramCondition.welfare != ''">
+                and welfare like CONCAT('%',#{paramCondition.welfare},'%')
+            </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.z_pos_info.model.params.ZPosInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_pos_info where 1 = 1
+            <if test="paramCondition.posName != null and paramCondition.posName != ''">
+                and pos_name like CONCAT('%',#{paramCondition.posName},'%')
+            </if>
+            <if test="paramCondition.location != null and paramCondition.location != ''">
+                and location like CONCAT('%',#{paramCondition.location},'%')
+            </if>
+            <if test="paramCondition.welfare != null and paramCondition.welfare != ''">
+                and welfare like CONCAT('%',#{paramCondition.welfare},'%')
+            </if>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.modular.z_pos_info.model.result.ZPosInfoResult" parameterType="cn.stylefeng.guns.modular.z_pos_info.model.params.ZPosInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_pos_info where 1 = 1
+            <if test="paramCondition.posName != null and paramCondition.posName != ''">
+                and pos_name like CONCAT('%',#{paramCondition.posName},'%')
+            </if>
+            <if test="paramCondition.location != null and paramCondition.location != ''">
+                and location like CONCAT('%',#{paramCondition.location},'%')
+            </if>
+            <if test="paramCondition.welfare != null and paramCondition.welfare != ''">
+                and welfare like CONCAT('%',#{paramCondition.welfare},'%')
+            </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.z_pos_info.model.params.ZPosInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_pos_info where 1 = 1
+            <if test="paramCondition.posName != null and paramCondition.posName != ''">
+                and pos_name like CONCAT('%',#{paramCondition.posName},'%')
+            </if>
+            <if test="paramCondition.location != null and paramCondition.location != ''">
+                and location like CONCAT('%',#{paramCondition.location},'%')
+            </if>
+            <if test="paramCondition.welfare != null and paramCondition.welfare != ''">
+                and welfare like CONCAT('%',#{paramCondition.welfare},'%')
+            </if>
+    </select>
+
+</mapper>

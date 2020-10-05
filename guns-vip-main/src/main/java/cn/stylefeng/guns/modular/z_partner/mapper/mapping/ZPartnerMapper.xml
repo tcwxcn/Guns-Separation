@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.z_partner.mapper.ZPartnerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.z_partner.entity.ZPartner">
+        <id column="partner_id" property="partnerId" />
+        <result column="pic_address" property="picAddress" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        partner_id AS "partnerId", pic_address AS "picAddress", remark AS "remark", create_time AS "createTime", update_time AS "updateTime", create_user AS "createUser", update_user AS "updateUser"
+    </sql>
+
+
+    <select id="customList" resultType="cn.stylefeng.guns.modular.z_partner.model.result.ZPartnerResult" parameterType="cn.stylefeng.guns.modular.z_partner.model.params.ZPartnerParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_partner where 1 = 1
+            <if test="paramCondition.partnerId != null and paramCondition.partnerId != ''">
+                and partner_id like CONCAT('%',#{paramCondition.partnerId},'%')
+            </if>
+            <if test="paramCondition.picAddress != null and paramCondition.picAddress != ''">
+                and pic_address like CONCAT('%',#{paramCondition.picAddress},'%')
+            </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.z_partner.model.params.ZPartnerParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_partner where 1 = 1
+            <if test="paramCondition.partnerId != null and paramCondition.partnerId != ''">
+                and partner_id like CONCAT('%',#{paramCondition.partnerId},'%')
+            </if>
+            <if test="paramCondition.picAddress != null and paramCondition.picAddress != ''">
+                and pic_address like CONCAT('%',#{paramCondition.picAddress},'%')
+            </if>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.modular.z_partner.model.result.ZPartnerResult" parameterType="cn.stylefeng.guns.modular.z_partner.model.params.ZPartnerParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_partner where 1 = 1
+            <if test="paramCondition.partnerId != null and paramCondition.partnerId != ''">
+                and partner_id like CONCAT('%',#{paramCondition.partnerId},'%')
+            </if>
+            <if test="paramCondition.picAddress != null and paramCondition.picAddress != ''">
+                and pic_address like CONCAT('%',#{paramCondition.picAddress},'%')
+            </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.z_partner.model.params.ZPartnerParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_partner where 1 = 1
+            <if test="paramCondition.partnerId != null and paramCondition.partnerId != ''">
+                and partner_id like CONCAT('%',#{paramCondition.partnerId},'%')
+            </if>
+            <if test="paramCondition.picAddress != null and paramCondition.picAddress != ''">
+                and pic_address like CONCAT('%',#{paramCondition.picAddress},'%')
+            </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.z_pos_name.mapper.ZPosNameMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.z_pos_name.entity.ZPosName">
+        <id column="pos_name_id" property="posNameId" />
+        <result column="pid" property="pid" />
+        <result column="name" property="name" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        pos_name_id AS "posNameId", pid AS "pid", name AS "name", remark AS "remark", create_time AS "createTime", update_time AS "updateTime", create_user AS "createUser", update_user AS "updateUser"
+    </sql>
+
+
+    <select id="customList" resultType="cn.stylefeng.guns.modular.z_pos_name.model.result.ZPosNameResult" parameterType="cn.stylefeng.guns.modular.z_pos_name.model.params.ZPosNameParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_pos_name where 1 = 1
+            <if test="paramCondition.posNameId != null and paramCondition.posNameId != ''">
+                and pos_name_id like CONCAT('%',#{paramCondition.posNameId},'%')
+            </if>
+            <if test="paramCondition.pid != null and paramCondition.pid != ''">
+                and pid like CONCAT('%',#{paramCondition.pid},'%')
+            </if>
+            <if test="paramCondition.name != null and paramCondition.name != ''">
+                and name like CONCAT('%',#{paramCondition.name},'%')
+            </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.z_pos_name.model.params.ZPosNameParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_pos_name where 1 = 1
+            <if test="paramCondition.posNameId != null and paramCondition.posNameId != ''">
+                and pos_name_id like CONCAT('%',#{paramCondition.posNameId},'%')
+            </if>
+            <if test="paramCondition.pid != null and paramCondition.pid != ''">
+                and pid like CONCAT('%',#{paramCondition.pid},'%')
+            </if>
+            <if test="paramCondition.name != null and paramCondition.name != ''">
+                and name like CONCAT('%',#{paramCondition.name},'%')
+            </if>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.modular.z_pos_name.model.result.ZPosNameResult" parameterType="cn.stylefeng.guns.modular.z_pos_name.model.params.ZPosNameParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_pos_name where 1 = 1
+            <if test="paramCondition.posNameId != null and paramCondition.posNameId != ''">
+                and pos_name_id like CONCAT('%',#{paramCondition.posNameId},'%')
+            </if>
+            <if test="paramCondition.pid != null and paramCondition.pid != ''">
+                and pid like CONCAT('%',#{paramCondition.pid},'%')
+            </if>
+            <if test="paramCondition.name != null and paramCondition.name != ''">
+                and name like CONCAT('%',#{paramCondition.name},'%')
+            </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.z_pos_name.model.params.ZPosNameParam">
+        select
+        <include refid="Base_Column_List"/>
+        from z_pos_name where 1 = 1
+            <if test="paramCondition.posNameId != null and paramCondition.posNameId != ''">
+                and pos_name_id like CONCAT('%',#{paramCondition.posNameId},'%')
+            </if>
+            <if test="paramCondition.pid != null and paramCondition.pid != ''">
+                and pid like CONCAT('%',#{paramCondition.pid},'%')
+            </if>
+            <if test="paramCondition.name != null and paramCondition.name != ''">
+                and name like CONCAT('%',#{paramCondition.name},'%')
+            </if>
+    </select>
+
+    <select id="layuiTree" resultType="cn.stylefeng.guns.base.pojo.node.LayuiTreeNode">
+		select pos_name_id AS id, pid as "pid", name as title,
+		(
+		CASE
+		WHEN (pid = 0 OR pid IS NULL) THEN
+		'true'
+		ELSE
+		'false'
+		END
+		) as "spread" from z_pos_name
+	</select>
+
+</mapper>

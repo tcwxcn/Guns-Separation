@@ -1,0 +1,52 @@
+@layout("/common/_form.html",{js:["/assets/modular/act/myleave/myleave_add.js"]}){
+
+<form class="layui-form" id="myleaveForm" lay-filter="myleaveForm">
+    <div class="layui-fluid" style="padding-bottom: 75px;">
+        <div class="layui-card">
+            <div class="layui-card-header">基本信息</div>
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-row">
+                    <input name="myleaveId" type="hidden"/>
+                    <input id="username" name="username" type="hidden"/>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">请假类型<span style="color: red;">*</span></label>
+                        <div class="layui-input-block layui-form" lay-filter="type">
+                            <select id="type" name="type" placeholder="请选择类型"></select>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">开始时间<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="starttime" name="starttime" placeholder="请输入开始时间" type="text" class="layui-input" lay-verify="required" required autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">结束时间<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="endtime" name="endtime" placeholder="请输入结束时间" type="text" class="layui-input" lay-verify="required" required autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">时长<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="whenlong" name="whenlong" placeholder="请输入时长" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">事由<span style="color: red;"></span></label>
+                        <div class="layui-input-block">
+                            <textarea id="reason" name="reason" placeholder="请输入事由"class="layui-textarea" lay-verify="required" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group-bottom text-center">
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>&emsp;提交&emsp;</button>
+        <button type="reset" class="layui-btn layui-btn-primary" ew-event="closeDialog">&emsp;取消&emsp;</button>
+    </div>
+
+</form>
+
+@}

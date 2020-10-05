@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+    <title>Activiti Editor</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="${ctxPath}/assets/common/libs/layui/css/layui.css?v=${constants.getReleaseVersion()}"/>
+    <link rel="stylesheet" href="${ctxPath}/assets/common/module/admin.css?v=${constants.getReleaseVersion()}" media="all"/>
+    <link rel="stylesheet" href="${ctxPath}/assets/expand/css/style.css?v=${constants.getReleaseVersion()}" media="all"/>
+</head>
+<body>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            <div class="layui-form-item">
+                <input id="account" value="" type="hidden"/>
+                <div class="layui-inline">
+                    <input id="name" class="layui-input" type="text" placeholder="账号/姓名/手机号"/>
+                </div>
+                <div class="layui-inline">
+                    <input id="timeLimit" class="layui-input" type="text" placeholder="注册时间"/>
+                </div>
+                <div class="layui-inline">
+                    <button id="btnSearch" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+                </div>
+            </div>
+        </div>
+        <table class="layui-table" id="selectDealerTable" lay-filter="selectDealerTable"></table>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var Feng = {
+        ctxPath: "${ctxPath}",
+        version: '${constants.getReleaseVersion()}'
+    };
+</script>
+
+<script type="text/javascript" src="${ctxPath}/assets/common/libs/layui/layui.js?v=${constants.getReleaseVersion()}"></script>
+<script type="text/javascript" src="${ctxPath}/assets/common/js/common.js?v=${constants.getReleaseVersion()}"></script>
+<script>
+    layui.use(['jquery', 'table', 'laydate'], function () {
+
+        var $ = layui.jquery;
+        var table = layui.table;
+        var laydate = layui.laydate;
+
+        var SelectDealerTable = {
+            tableId: "selectDealerTable"
+        };
+
+        SelectDealerTable.initColumn = function () {
+            return [[
+                {type: 'numbers', title: "No"},
+                {field: "account", title: "账号"},
+                {field: "name", title: "姓名"},
+                {field: "deptName", title: "部门"}
+            ]]
+        };
+
+        //渲染时间选择框
+        laydate.render({
+            elem: '#timeLimit',
+            range: true,
+            max: Feng.currentDate()
+        });
+
+        // 搜索按钮点击事件
+        $('#btnSearch').click(function () {
+            SelectDealerTable.search();
+        });
+
+        /**
+         * 点击查询按钮
+         */
+        SelectDealerTable.search = function () {
+            var queryData = {};
+            queryData['deptId'] = "";
+            queryData['name'] = $("#name").val();
+            queryData['timeLimit'] = $("#timeLimit").val();
+            table.reload(SelectDealerTable.tableId, {
+                where: queryData, page: {curr: 1}
+            });
+        };
+
+        table.render({
+            elem: '#' + SelectDealerTable.tableId,
+            url: Feng.ctxPath + '/mgr/list',
+            page: true,
+            height: "full-98",
+            cellMinWidth: 100,
+            cols: SelectDealerTable.initColumn()
+        });
+
+        table.on('rowDouble(selectDealerTable)', function (obj) {
+            //缓存account
+            top.layui.data('tempIndex', {
+                key: 'account', value: obj.data.account
+            });
+
+            //关闭窗口
+            top.layer.close(top.layui.data('tempIndex').userIndex);
+        });
+    });
+</script>
+

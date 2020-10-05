@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.stylefeng.guns.timer.config.JobExecutorConfig,\
+cn.stylefeng.guns.timer.config.JobHandlerConfig

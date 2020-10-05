@@ -1,0 +1,70 @@
+@layout("/common/_form.html",{js:["/assets/modular/excel/excelExportDeploy_add.js"]}){
+
+<form class="layui-form" id="excelExportDeployForm" lay-filter="excelExportDeployForm">
+    <div class="layui-fluid" style="padding-bottom: 75px;">
+        <div class="layui-card">
+            <div class="layui-card-header">基本信息</div>
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-row">
+                    <input name="id" type="hidden"/>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">导出配置名称<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="name" name="name" placeholder="请输入excel导出配置名称" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">导出文件名称<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="title" name="title" placeholder="请输入导出文件名称" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">唯一标识<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="nid" name="nid" placeholder="请输入唯一标识" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">Excel模版<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                        	<button type="button" class="layui-btn" id="templateUplod">上传Excel模版</button><span id="src"></span>
+                            <input id="template" name="template" placeholder="请输入模版路径" type="hidden" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">数据源<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                        	<textarea rows="20" cols="100" name="dataSource"  id="dataSource" lay-verify="required"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">状态<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+							<div class="layui-input-inline"
+								style="display: block; width: auto; float: none;">
+								<input type="radio" name="status" value="0" title="开启" checked="checked">
+								<div class="layui-unselect layui-form-radio layui-form-radioed">
+									<i class="layui-anim layui-icon"></i>
+									<div>开启</div>
+								</div>
+								<input type="radio" name="status" value="1" title="关闭">
+								<div class="layui-unselect layui-form-radio">
+									<i class="layui-anim layui-icon"></i>
+									<div>关闭</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group-bottom text-center">
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>&emsp;提交&emsp;</button>
+        <button type="reset" class="layui-btn layui-btn-primary" ew-event="closeDialog">&emsp;取消&emsp;</button>
+    </div>
+
+</form>
+
+@}

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.zj_user_info.mapper.ZjUserInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.zj_user_info.entity.ZjUserInfo">
+        <id column="user_info_id" property="userInfoId" />
+        <result column="user_resumes_id" property="userResumesId" />
+        <result column="pos_info_id" property="posInfoId" />
+        <result column="account" property="account" />
+        <result column="password" property="password" />
+        <result column="salt" property="salt" />
+        <result column="name" property="name" />
+        <result column="sex" property="sex" />
+        <result column="birthday" property="birthday" />
+        <result column="email" property="email" />
+        <result column="phone" property="phone" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_info_id AS "userInfoId", user_resumes_id AS "userResumesId", pos_info_id AS "posInfoId", account AS "account", password AS "password", salt AS "salt", name AS "name", sex AS "sex", birthday AS "birthday", email AS "email", phone AS "phone", status AS "status", remark AS "remark", create_time AS "createTime", update_time AS "updateTime", create_user AS "createUser", update_user AS "updateUser"
+    </sql>
+
+
+    <select id="customList" resultType="cn.stylefeng.guns.modular.zj_user_info.model.result.ZjUserInfoResult" parameterType="cn.stylefeng.guns.modular.zj_user_info.model.params.ZjUserInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from zj_user_info where 1 = 1
+            <if test="paramCondition.userInfoId != null and paramCondition.userInfoId != ''">
+                and user_info_id like CONCAT('%',#{paramCondition.userInfoId},'%')
+            </if>
+            <if test="paramCondition.userResumesId != null and paramCondition.userResumesId != ''">
+                and user_resumes_id like CONCAT('%',#{paramCondition.userResumesId},'%')
+            </if>
+            <if test="paramCondition.posInfoId != null and paramCondition.posInfoId != ''">
+                and pos_info_id like CONCAT('%',#{paramCondition.posInfoId},'%')
+            </if>
+            <if test="paramCondition.account != null and paramCondition.account != ''">
+                and account like CONCAT('%',#{paramCondition.account},'%')
+            </if>
+            <if test="paramCondition.phone != null and paramCondition.phone != ''">
+                and phone like CONCAT('%',#{paramCondition.phone},'%')
+            </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.zj_user_info.model.params.ZjUserInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from zj_user_info where 1 = 1
+            <if test="paramCondition.userInfoId != null and paramCondition.userInfoId != ''">
+                and user_info_id like CONCAT('%',#{paramCondition.userInfoId},'%')
+            </if>
+            <if test="paramCondition.userResumesId != null and paramCondition.userResumesId != ''">
+                and user_resumes_id like CONCAT('%',#{paramCondition.userResumesId},'%')
+            </if>
+            <if test="paramCondition.posInfoId != null and paramCondition.posInfoId != ''">
+                and pos_info_id like CONCAT('%',#{paramCondition.posInfoId},'%')
+            </if>
+            <if test="paramCondition.account != null and paramCondition.account != ''">
+                and account like CONCAT('%',#{paramCondition.account},'%')
+            </if>
+            <if test="paramCondition.phone != null and paramCondition.phone != ''">
+                and phone like CONCAT('%',#{paramCondition.phone},'%')
+            </if>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.modular.zj_user_info.model.result.ZjUserInfoResult" parameterType="cn.stylefeng.guns.modular.zj_user_info.model.params.ZjUserInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from zj_user_info where 1 = 1
+            <if test="paramCondition.userInfoId != null and paramCondition.userInfoId != ''">
+                and user_info_id like CONCAT('%',#{paramCondition.userInfoId},'%')
+            </if>
+            <if test="paramCondition.userResumesId != null and paramCondition.userResumesId != ''">
+                and user_resumes_id like CONCAT('%',#{paramCondition.userResumesId},'%')
+            </if>
+            <if test="paramCondition.posInfoId != null and paramCondition.posInfoId != ''">
+                and pos_info_id like CONCAT('%',#{paramCondition.posInfoId},'%')
+            </if>
+            <if test="paramCondition.account != null and paramCondition.account != ''">
+                and account like CONCAT('%',#{paramCondition.account},'%')
+            </if>
+            <if test="paramCondition.phone != null and paramCondition.phone != ''">
+                and phone like CONCAT('%',#{paramCondition.phone},'%')
+            </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.zj_user_info.model.params.ZjUserInfoParam">
+        select
+        <include refid="Base_Column_List"/>
+        from zj_user_info where 1 = 1
+            <if test="paramCondition.userInfoId != null and paramCondition.userInfoId != ''">
+                and user_info_id like CONCAT('%',#{paramCondition.userInfoId},'%')
+            </if>
+            <if test="paramCondition.userResumesId != null and paramCondition.userResumesId != ''">
+                and user_resumes_id like CONCAT('%',#{paramCondition.userResumesId},'%')
+            </if>
+            <if test="paramCondition.posInfoId != null and paramCondition.posInfoId != ''">
+                and pos_info_id like CONCAT('%',#{paramCondition.posInfoId},'%')
+            </if>
+            <if test="paramCondition.account != null and paramCondition.account != ''">
+                and account like CONCAT('%',#{paramCondition.account},'%')
+            </if>
+            <if test="paramCondition.phone != null and paramCondition.phone != ''">
+                and phone like CONCAT('%',#{paramCondition.phone},'%')
+            </if>
+    </select>
+
+    <select id="findByPhone" resultType="cn.stylefeng.guns.modular.zj_user_info.model.result.ZjUserInfoResult" >
+        select
+        <include refid="Base_Column_List"></include>
+        from zj_user_info where phone = #{phone}
+    </select>
+
+</mapper>

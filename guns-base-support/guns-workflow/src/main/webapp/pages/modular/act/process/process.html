@@ -1,0 +1,42 @@
+@layout("/common/_container.html",{js:["/assets/modular/act/process/process.js"]}){
+
+<div class="layui-body-header">
+    <span class="layui-body-header-title">管理</span>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm12 layui-col-md12 layui-col-lg12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="layui-form toolbar">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <input id="keywords" class="layui-input" type="text" placeholder="名称"/>
+                            </div>
+                            <div class="layui-inline">
+                                <button id="btnSearch" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+                                <button id="btnAdd" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>导入流程</button>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="layui-table" id="procdefTable" lay-filter="procdefTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableBar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="map">映射模型</a>
+    <a class="layui-btn layui-btn-xs" lay-event="download">打包下载</a>
+
+    {{#  if(d.suspensionState === 1){ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="hangup">挂起</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="active">激活</a>
+    {{#  } }}
+
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+</script>
+@}

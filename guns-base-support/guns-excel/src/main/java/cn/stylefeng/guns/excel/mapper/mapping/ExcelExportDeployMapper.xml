@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.excel.mapper.ExcelExportDeployMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.excel.entity.ExcelExportDeploy">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="title" property="title"/>
+        <result column="nid" property="nid"/>
+        <result column="template" property="template"/>
+        <result column="data_source" property="dataSource"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id AS "id", name AS "name", title AS "title", nid AS "nid", template AS "template", data_source AS "dataSource", status AS "status"
+    </sql>
+
+    <select id="customList" resultType="cn.stylefeng.guns.excel.model.result.ExcelExportDeployResult" parameterType="cn.stylefeng.guns.excel.model.params.ExcelExportDeployParam">
+        select
+        <include refid="Base_Column_List"/>
+        from excel_export_deploy where 1 = 1
+        <if test="paramCondition.id != null and paramCondition.id != ''">
+            and id like CONCAT('%',#{paramCondition.id},'%')
+        </if>
+        <if test="paramCondition.nid != null and paramCondition.nid != ''">
+            and nid like CONCAT('%',#{paramCondition.nid},'%')
+        </if>
+        <if test="paramCondition.status != null and paramCondition.status != ''">
+            and status like CONCAT('%',#{paramCondition.status},'%')
+        </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.excel.model.params.ExcelExportDeployParam">
+        select
+        <include refid="Base_Column_List"/>
+        from excel_export_deploy where 1 = 1
+        <if test="paramCondition.id != null and paramCondition.id != ''">
+            and id like CONCAT('%',#{paramCondition.id},'%')
+        </if>
+        <if test="paramCondition.nid != null and paramCondition.nid != ''">
+            and nid like CONCAT('%',#{paramCondition.nid},'%')
+        </if>
+        <if test="paramCondition.status != null and paramCondition.status != ''">
+            and status like CONCAT('%',#{paramCondition.status},'%')
+        </if>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.excel.model.result.ExcelExportDeployResult" parameterType="cn.stylefeng.guns.excel.model.params.ExcelExportDeployParam">
+        select
+        <include refid="Base_Column_List"/>
+        from excel_export_deploy where 1 = 1
+        <if test="paramCondition.id != null and paramCondition.id != ''">
+            and id like CONCAT('%',#{paramCondition.id},'%')
+        </if>
+        <if test="paramCondition.nid != null and paramCondition.nid != ''">
+            and nid like CONCAT('%',#{paramCondition.nid},'%')
+        </if>
+        <if test="paramCondition.status != null and paramCondition.status != ''">
+            and status like CONCAT('%',#{paramCondition.status},'%')
+        </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.excel.model.params.ExcelExportDeployParam">
+        select
+        <include refid="Base_Column_List"/>
+        from excel_export_deploy where 1 = 1
+        <if test="paramCondition.id != null and paramCondition.id != ''">
+            and id like CONCAT('%',#{paramCondition.id},'%')
+        </if>
+        <if test="paramCondition.nid != null and paramCondition.nid != ''">
+            and nid like CONCAT('%',#{paramCondition.nid},'%')
+        </if>
+        <if test="paramCondition.status != null and paramCondition.status != ''">
+            and status like CONCAT('%',#{paramCondition.status},'%')
+        </if>
+    </select>
+
+</mapper>

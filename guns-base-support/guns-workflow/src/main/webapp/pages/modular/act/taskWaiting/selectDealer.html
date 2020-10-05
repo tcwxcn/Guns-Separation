@@ -1,0 +1,22 @@
+@layout("/common/_container.html",{js:["/assets/modular/act/taskWaiting/selectDealer.js"]}){
+
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <input id="name" class="layui-input" type="text" placeholder="账号/姓名/手机号"/>
+                </div>
+                <div class="layui-inline">
+                    <input id="timeLimit" class="layui-input" type="text" placeholder="注册时间"/>
+                </div>
+                <div class="layui-inline">
+                    <button id="btnSearch" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+                </div>
+            </div>
+        </div>
+        <table class="layui-table" id="selectDealerTable" lay-filter="selectDealerTable"></table>
+    </div>
+</div>
+
+@}

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.workflow.modular.mapper.HistoryProcessMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.workflow.modular.entity.Procinst">
+        <id column="ID_" property="id"/>
+        <result column="PROC_INST_ID_" property="procInstId"/>
+        <result column="BUSINESS_KEY_" property="businessKey"/>
+        <result column="PROC_DEF_ID_" property="procDefId"/>
+        <result column="START_TIME_" property="startTime"/>
+        <result column="END_TIME_" property="endTime"/>
+        <result column="DURATION_" property="duration"/>
+        <result column="START_USER_ID_" property="startUserId"/>
+        <result column="START_ACT_ID_" property="startActId"/>
+        <result column="END_ACT_ID_" property="endActId"/>
+        <result column="SUPER_PROCESS_INSTANCE_ID_" property="superProcessInstanceId"/>
+        <result column="DELETE_REASON_" property="deleteReason"/>
+        <result column="TENANT_ID_" property="tenantId"/>
+        <result column="NAME_" property="name"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID_ AS "id", PROC_INST_ID_ AS "procInstId", BUSINESS_KEY_ AS "businessKey", PROC_DEF_ID_ AS "procDefId", START_TIME_ AS "startTime", END_TIME_ AS "endTime", DURATION_ AS "duration", START_USER_ID_ AS "startUserId", START_ACT_ID_ AS "startActId", END_ACT_ID_ AS "endActId", SUPER_PROCESS_INSTANCE_ID_ AS "superProcessInstanceId", DELETE_REASON_ AS "deleteReason", TENANT_ID_ AS "tenantId", NAME_ AS "name"
+    </sql>
+
+
+    <select id="customList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcinstResult" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcinstParam">
+        select
+        <include refid="Base_Column_List"/>
+        from act_hi_procinst where 1 = 1
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcinstParam">
+        select
+        <include refid="Base_Column_List"/>
+        from act_hi_procinst where 1 = 1
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcinstResult" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcinstParam">
+        select
+        <include refid="Base_Column_List"/>
+        from act_hi_procinst where 1 = 1
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcinstParam">
+        select
+        <include refid="Base_Column_List"/>
+        from act_hi_procinst where 1 = 1
+    </select>
+
+    <!-- ACT_HI_PROCINST 字段-->
+    <sql id="hp">
+        hp.ID_ AS "id_",
+        hp.PROC_INST_ID_ AS "proc_inst_id_",
+        hp.BUSINESS_KEY_ AS "business_key_",
+        hp.PROC_DEF_ID_ AS "proc_def_id_",
+        hp.START_TIME_ AS "start_time_",
+        hp.END_TIME_ AS "end_time_",
+        hp.DURATION_ AS "duration_",
+        hp.START_USER_ID_ AS "start_user_id_",
+        hp.START_ACT_ID_ AS "start_act_id_",
+        hp.END_ACT_ID_ AS "end_act_id_",
+        hp.SUPER_PROCESS_INSTANCE_ID_ AS "super_process_instance_id_",
+        hp.DELETE_REASON_ AS "delete_reason_",
+        hp.TENANT_ID_ AS "tenant_id_",
+        hp.NAME_ AS "name_"
+    </sql>
+    <!--ACT_HI_VARINST-->
+    <sql id="ahv">
+      ID_ AS "id_",
+      PROC_INST_ID_ AS "proc_inst_id_",
+      EXECUTION_ID_ AS "execution_id_",
+      TASK_ID_ AS "task_id_",
+      NAME_ AS "name_",
+      VAR_TYPE_ AS "var_type_",
+      REV_ AS "REV_",
+      BYTEARRAY_ID_ AS "bytearray_id_",
+      DOUBLE_ AS "double_",
+      LONG_ AS "long_",
+      TEXT_ AS "text_",
+      TEXT2_ AS "text2_",
+      CREATE_TIME_ AS "create_time_",
+      LAST_UPDATED_TIME_  AS "last_updated_time_"
+    </sql>
+    <!-- 历史流程列表-->
+    <select id="datalistPage" resultType="map">
+        select
+        <include refid="hp"/>
+        ,
+        rp.NAME_ pname_,
+        rp.VERSION_ version_,
+        rp.ID_ pid_,
+        rp.DEPLOYMENT_ID_ deployment_id_,
+        rp.DGRM_RESOURCE_NAME_ dgrm_resource_name_
+        from
+        ACT_HI_PROCINST hp
+        left join
+        ACT_RE_PROCDEF rp
+        on hp.PROC_DEF_ID_ = rp.ID_
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            rp.NAME_ LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.lastStart != null and pd.lastStart != ''"><!-- 开始时间检索 -->
+            and hp.END_TIME_ &gt;= #{pd.lastStart}
+        </if>
+        <if test="pd.lastEnd != null and pd.lastEnd != ''"><!-- 结束时间检索 -->
+            and hp.END_TIME_ &lt;= #{pd.lastEnd}
+        </if>
+        and hp.END_TIME_ is not NULL
+        order by hp.END_TIME_ desc
+    </select>
+
+    <select id="datalistPage" resultType="map" databaseId="mssql">
+        select
+        <include refid="hp"/>
+        ,
+        rp.NAME_ pname_,
+        rp.VERSION_ version_,
+        rp.ID_ pid_,
+        rp.DEPLOYMENT_ID_ deployment_id_,
+        rp.DGRM_RESOURCE_NAME_ dgrm_resource_name_
+        from
+        ACT_HI_PROCINST hp
+        left join
+        ACT_RE_PROCDEF rp
+        on hp.PROC_DEF_ID_ = rp.ID_
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            rp.NAME_ LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.lastStart != null and pd.lastStart != ''"><!-- 开始时间检索 -->
+            and hp.END_TIME_ &gt;= #{pd.lastStart}
+        </if>
+        <if test="pd.lastEnd != null and pd.lastEnd != ''"><!-- 结束时间检索 -->
+            and hp.END_TIME_ &lt;= #{pd.lastEnd}
+        </if>
+        and hp.END_TIME_ is not NULL
+        order by hp.END_TIME_ desc
+    </select>
+
+    <select id="datalistPage" resultType="map" databaseId="pgsql">
+        select
+        <include refid="hp"/>
+        ,
+        rp.NAME_ pname_,
+        rp.VERSION_ version_,
+        rp.ID_ pid_,
+        rp.DEPLOYMENT_ID_ deployment_id_,
+        rp.DGRM_RESOURCE_NAME_ dgrm_resource_name_
+        from
+        ACT_HI_PROCINST hp
+        left join
+        ACT_RE_PROCDEF rp
+        on hp.PROC_DEF_ID_ = rp.ID_
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            rp.NAME_ LIKE '%' || #{pd.keywords} || '%'
+            )
+        </if>
+        <if test="pd.lastStart != null and pd.lastStart != ''"><!-- 开始时间检索 -->
+            and hp.END_TIME_ &gt;= to_timestamp(#{pd.lastStart}||' 00:00:00','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="pd.lastEnd != null and pd.lastEnd != ''"><!-- 结束时间检索 -->
+            and hp.END_TIME_ &lt;= to_timestamp(#{pd.lastEnd}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        and hp.END_TIME_ is not NULL
+        order by hp.END_TIME_ desc
+    </select>
+
+    <select id="datalistPage" resultType="map" databaseId="oracle">
+        select
+        <include refid="hp"/>
+        ,
+        rp.NAME_ "pname_",
+        rp.VERSION_ "version_",
+        rp.ID_ "pid_",
+        rp.DEPLOYMENT_ID_ "deployment_id_",
+        rp.DGRM_RESOURCE_NAME_ "dgrm_resource_name_"
+        from
+        ACT_HI_PROCINST hp
+        left join
+        ACT_RE_PROCDEF rp
+        on hp.PROC_DEF_ID_ = rp.ID_
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            rp.NAME_ LIKE '%' || #{pd.keywords} || '%'
+            )
+        </if>
+        <if test="pd.lastStart != null and pd.lastStart != ''"><!-- 开始时间检索 -->
+            and hp.END_TIME_ &gt;= to_date(#{pd.lastStart}||' 00:00:00','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="pd.lastEnd != null and pd.lastEnd != ''"><!-- 结束时间检索 -->
+            and hp.END_TIME_ &lt;= to_date(#{pd.lastEnd}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        and hp.END_TIME_ is not NULL
+        order by hp.END_TIME_ desc
+    </select>
+
+    <!-- 历史流程变量列表 -->
+    <select id="hivarList" resultType="map">
+        select
+        <include refid="ahv"/>
+        from
+        ACT_HI_VARINST ahv
+        where 1=1
+        <if test="PROC_INST_ID_ != null and PROC_INST_ID_ != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{PROC_INST_ID_}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <select id="hivarList" resultType="map" databaseId="mssql">
+        select
+        <include refid="ahv"/>
+        from
+        ACT_HI_VARINST ahv
+        where 1=1
+        <if test="PROC_INST_ID_ != null and PROC_INST_ID_ != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{PROC_INST_ID_}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <select id="hivarList" resultType="map" databaseId="pgsql">
+        select
+        <include refid="ahv"/>
+        from
+        ACT_HI_VARINST ahv
+        where 1=1
+        <if test="PROC_INST_ID_ != null and PROC_INST_ID_ != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{PROC_INST_ID_}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <select id="hivarList" resultType="map" databaseId="oracle">
+        select
+        <include refid="ahv"/>
+        from
+        ACT_HI_VARINST ahv
+        where 1=1
+        <if test="PROC_INST_ID_ != null and PROC_INST_ID_ != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{PROC_INST_ID_}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+</mapper>

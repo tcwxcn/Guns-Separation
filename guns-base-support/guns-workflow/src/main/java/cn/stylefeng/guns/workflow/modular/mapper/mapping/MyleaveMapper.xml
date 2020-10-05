@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.workflow.modular.mapper.MyleaveMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.workflow.modular.entity.Myleave">
+        <id column="myleave_id" property="myleaveId"/>
+        <result column="username" property="username"/>
+        <result column="type" property="type"/>
+        <result column="starttime" property="starttime"/>
+        <result column="endtime" property="endtime"/>
+        <result column="whenlong" property="whenlong"/>
+        <result column="reason" property="reason"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        myleave_id AS "myleaveId", username AS "username", type AS "type", starttime AS "starttime", endtime AS "endtime", whenlong AS "whenlong", reason AS "reason"
+    </sql>
+
+    <select id="customList" resultType="cn.stylefeng.guns.workflow.modular.model.result.MyleaveResult" parameterType="cn.stylefeng.guns.workflow.modular.model.params.MyLeaveParam">
+        select
+        <include refid="Base_Column_List"/>
+        from oa_myleave where 1 = 1
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.MyLeaveParam">
+        select
+        <include refid="Base_Column_List"/>
+        from oa_myleave where 1 = 1
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.MyleaveResult" parameterType="cn.stylefeng.guns.workflow.modular.model.params.MyLeaveParam">
+        select
+        <include refid="Base_Column_List"/>
+        from oa_myleave where 1 = 1
+    </select>
+
+    <!-- 列表 -->
+    <select id="datalistPage" resultType="map">
+        select
+        l.username as username,
+        l.type as type,
+        l.starttime as starttime,
+        l.endtime as endtime,
+        l.whenlong as whenlong,
+        l.myleave_id as myleaveId,
+        l.reason as reason
+        from
+        oa_myleave l
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''">
+            and
+            (
+            l.reason LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            or
+            l.username LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.username!= null and pd.username != ''">
+            and l.username = #{pd.username}
+        </if>
+        <if test="pd.type != null and pd.type != ''">
+            and l.type=#{pd.type}
+        </if>
+        order by l.endtime desc
+    </select>
+
+    <select id="datalistPage" resultType="map" databaseId="mssql">
+        select
+        l.username as username,
+        l.type as type,
+        l.starttime as starttime,
+        l.endtime as endtime,
+        l.whenlong as whenlong,
+        l.myleave_id as myleaveId,
+        l.reason as reason
+        from
+        oa_myleave l
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''">
+            and
+            (
+            l.reason LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            or
+            l.username LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.username!= null and pd.username != ''">
+            and l.username = #{pd.username}
+        </if>
+        <if test="pd.type != null and pd.type != ''">
+            and l.type=#{pd.type}
+        </if>
+        order by l.endtime desc
+    </select>
+
+    <select id="datalistPage" resultType="map" databaseId="pgsql">
+        select
+        l.username as "username",
+        l.type as "type",
+        l.starttime as "starttime",
+        l.endtime as "endtime",
+        l.whenlong as "whenlong",
+        l.myleave_id as "myleaveId",
+        l.reason as "reason"
+        from
+        oa_myleave l
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''">
+            and
+            (
+            l.reason LIKE '%' || #{pd.keywords} || '%'
+            or
+            l.username LIKE '%' || #{pd.keywords} || '%'
+            )
+        </if>
+        <if test="pd.username!= null and pd.username != ''">
+            and l.username = #{pd.username}
+        </if>
+        <if test="pd.type != null and pd.type != ''">
+            and l.type=#{pd.type}
+        </if>
+        order by l.endtime desc
+    </select>
+
+    <select id="datalistPage" resultType="map" databaseId="oracle">
+        select
+        l.username as "username",
+        l.type as "type",
+        l.starttime as "starttime",
+        l.endtime as "endtime",
+        l.whenlong as "whenlong",
+        l.myleave_id as "myleaveId",
+        l.reason as "reason"
+        from
+        oa_myleave l
+        where 1=1
+        <if test="pd.keywords!= null and pd.keywords != ''">
+            and
+            (
+            l.reason LIKE '%' || #{pd.keywords} || '%'
+            or
+            l.username LIKE '%' || #{pd.keywords} || '%'
+            )
+        </if>
+        <if test="pd.username!= null and pd.username != ''">
+            and l.username = #{pd.username}
+        </if>
+        <if test="pd.type != null and pd.type != ''">
+            and l.type=#{pd.type}
+        </if>
+        order by l.endtime desc
+    </select>
+
+
+    <!--查询请假类型-->
+    <select id="getLeaves" resultType="map">
+        select dict.dict_id dictId,
+        dict.name dictName
+        from sys_dict dict
+        where dict.dict_type_id = '1160532886713155585'
+    </select>
+
+    <select id="getLeaves" resultType="map" databaseId="mssql">
+        select dict.dict_id dictId,
+        dict.name dictName
+        from sys_dict dict
+        where dict.dict_type_id = '1160532886713155585'
+    </select>
+
+    <select id="getLeaves" resultType="map" databaseId="pgsql">
+        select dict.dict_id "dictId",
+        dict.name "dictName"
+        from sys_dict dict
+        where dict.dict_type_id = '1160532886713155585'
+    </select>
+
+    <select id="getLeaves" resultType="map" databaseId="oracle">
+        select dict.dict_id "dictId",
+        dict.name "dictName"
+        from sys_dict dict
+        where dict.dict_type_id = '1160532886713155585'
+    </select>
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.zj_relation_resumes.mapper.ZjRelationResumesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.zj_relation_resumes.entity.ZjRelationResumes">
+        <id column="relation_id" property="relationId" />
+        <result column="resumes_id" property="resumesId" />
+        <result column="user_info_id" property="userInfoId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        relation_id AS "relationId", resumes_id AS "resumesId", user_info_id AS "userInfoId"
+    </sql>
+
+
+    <select id="customList" resultType="cn.stylefeng.guns.modular.zj_relation_resumes.model.result.ZjRelationResumesResult" parameterType="cn.stylefeng.guns.modular.zj_relation_resumes.model.params.ZjRelationResumesParam">
+        select
+        <include refid="Base_Column_List"/>
+        from zj_relation_resumes where 1 = 1
+            <if test="paramCondition.resumesId != null and paramCondition.resumesId != ''">
+                and resumes_id like CONCAT('%',#{paramCondition.resumesId},'%')
+            </if>
+            <if test="paramCondition.userInfoId != null and paramCondition.userInfoId != ''">
+                and user_info_id like CONCAT('%',#{paramCondition.userInfoId},'%')
+            </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.zj_relation_resumes.model.params.ZjRelationResumesParam">
+        select
+        <include refid="Base_Column_List"/>
+        from zj_relation_resumes where 1 = 1
+            <if test="paramCondition.resumesId != null and paramCondition.resumesId != ''">
+                and resumes_id like CONCAT('%',#{paramCondition.resumesId},'%')
+            </if>
+            <if test="paramCondition.userInfoId != null and paramCondition.userInfoId != ''">
+                and user_info_id like CONCAT('%',#{paramCondition.userInfoId},'%')
+            </if>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.modular.zj_relation_resumes.model.result.ZjRelationResumesResult" parameterType="cn.stylefeng.guns.modular.zj_relation_resumes.model.params.ZjRelationResumesParam">
+        select
+        <include refid="Base_Column_List"/>
+        from zj_relation_resumes where 1 = 1
+            <if test="paramCondition.resumesId != null and paramCondition.resumesId != ''">
+                and resumes_id like CONCAT('%',#{paramCondition.resumesId},'%')
+            </if>
+            <if test="paramCondition.userInfoId != null and paramCondition.userInfoId != ''">
+                and user_info_id like CONCAT('%',#{paramCondition.userInfoId},'%')
+            </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.zj_relation_resumes.model.params.ZjRelationResumesParam">
+        select
+        <include refid="Base_Column_List"/>
+        from zj_relation_resumes where 1 = 1
+            <if test="paramCondition.resumesId != null and paramCondition.resumesId != ''">
+                and resumes_id like CONCAT('%',#{paramCondition.resumesId},'%')
+            </if>
+            <if test="paramCondition.userInfoId != null and paramCondition.userInfoId != ''">
+                and user_info_id like CONCAT('%',#{paramCondition.userInfoId},'%')
+            </if>
+    </select>
+
+</mapper>

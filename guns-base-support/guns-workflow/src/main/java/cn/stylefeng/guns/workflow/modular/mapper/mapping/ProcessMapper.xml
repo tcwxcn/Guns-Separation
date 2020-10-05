@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.workflow.modular.mapper.ProcessMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.workflow.modular.entity.Procdef">
+        <id column="ID_" property="id"/>
+        <result column="REV_" property="rev"/>
+        <result column="CATEGORY_" property="category"/>
+        <result column="NAME_" property="name"/>
+        <result column="KEY_" property="key"/>
+        <result column="VERSION_" property="version"/>
+        <result column="DEPLOYMENT_ID_" property="deploymentId"/>
+        <result column="RESOURCE_NAME_" property="resourceName"/>
+        <result column="DGRM_RESOURCE_NAME_" property="dgrmResourceName"/>
+        <result column="DESCRIPTION_" property="description"/>
+        <result column="HAS_START_FORM_KEY_" property="hasStartFormKey"/>
+        <result column="HAS_GRAPHICAL_NOTATION_" property="hasGraphicalNotation"/>
+        <result column="SUSPENSION_STATE_" property="suspensionState"/>
+        <result column="TENANT_ID_" property="tenantId"/>
+        <result column="ENGINE_VERSION_" property="engineVersion"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID_ AS "id", REV_ AS "rev", CATEGORY_ AS "category", NAME_ AS "name", KEY_ AS "key", VERSION_ AS "version", DEPLOYMENT_ID_ AS "deploymentId", RESOURCE_NAME_ AS "resourceName", DGRM_RESOURCE_NAME_ AS "dgrmResourceName", DESCRIPTION_ AS "description", HAS_START_FORM_KEY_ AS "hasStartFormKey", HAS_GRAPHICAL_NOTATION_ AS "hasGraphicalNotation", SUSPENSION_STATE_ AS "suspensionState", TENANT_ID_ AS "tenantId", ENGINE_VERSION_ AS "engineVersion"
+    </sql>
+
+    <!-- 激活or挂起任务(指定某个任务) -->
+    <update id="onoffTask">
+        update
+        ACT_RU_TASK
+        set
+        SUSPENSION_STATE_ = #{status}
+        where ID_ = #{id}
+    </update>
+
+    <update id="onoffTask" databaseId="mssql">
+        update
+        ACT_RU_TASK
+        set
+        SUSPENSION_STATE_ = #{status}
+        where ID_ = #{id}
+    </update>
+
+    <update id="onoffTask" databaseId="pgsql">
+        update
+        ACT_RU_TASK
+        set
+        SUSPENSION_STATE_ = #{status}
+        where ID_ = #{id}
+    </update>
+
+    <update id="onoffTask" databaseId="oracle">
+        update
+        ACT_RU_TASK
+        set
+        SUSPENSION_STATE_ = #{status}
+        where ID_ = #{id}
+    </update>
+
+    <!-- 激活or挂起任务(指定某个流程的所有任务) -->
+    <update id="onoffAllTask">
+        update
+        ACT_RU_TASK
+        set
+        SUSPENSION_STATE_ = #{status}
+        where PROC_DEF_ID_ = #{id}
+    </update>
+
+    <update id="onoffAllTask" databaseId="mssql">
+        update
+        ACT_RU_TASK
+        set
+        SUSPENSION_STATE_ = #{status}
+        where PROC_DEF_ID_ = #{id}
+    </update>
+
+    <update id="onoffAllTask" databaseId="pgsql">
+        update
+        ACT_RU_TASK
+        set
+        SUSPENSION_STATE_ = #{status}
+        where PROC_DEF_ID_ = #{id}
+    </update>
+
+    <update id="onoffAllTask" databaseId="oracle">
+        update
+        ACT_RU_TASK
+        set
+        SUSPENSION_STATE_ = #{status}
+        where PROC_DEF_ID_ = #{id}
+    </update>
+
+    <select id="customList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcdefResult" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like CONCAT('%',#{paramCondition.name},'%')
+        </if>
+    </select>
+
+    <select id="customList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcdefResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="mssql">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like CONCAT('%',#{paramCondition.name},'%')
+        </if>
+    </select>
+
+    <select id="customList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcdefResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="pgsql">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like '%' || #{paramCondition.name} || '%'
+        </if>
+    </select>
+
+    <select id="customList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcdefResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="oracle">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like '%' || #{paramCondition.name} || '%'
+        </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like CONCAT('%',#{paramCondition.name},'%')
+        </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="mssql">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like CONCAT('%',#{paramCondition.name},'%')
+        </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="pgsql">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like '%' || #{paramCondition.name} || '%'
+        </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="oracle">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like '%' || #{paramCondition.name} || '%'
+        </if>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcdefResult" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam">
+        select
+        p.ID_ AS "id", p.CATEGORY_ AS "category", p.NAME_ AS "name", p.KEY_ AS "key", p.VERSION_ AS "version", p.DEPLOYMENT_ID_ AS "deploymentId",
+        p.RESOURCE_NAME_ AS "resourceName", p.DGRM_RESOURCE_NAME_ AS "dgrmResourceName", DESCRIPTION_ AS "description", p.SUSPENSION_STATE_ AS "suspensionState",
+        d.DEPLOY_TIME_ as deployTime
+        from act_re_procdef p
+        left join
+        ACT_RE_DEPLOYMENT d
+        on p.DEPLOYMENT_ID_ = d.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and d.DEPLOY_TIME_ &gt;= #{paramCondition.lastStart}
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and d.DEPLOY_TIME_ &lt;= #{paramCondition.lastEnd}
+        </if>
+        order by d.DEPLOY_TIME_ desc
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcdefResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="mssql">
+        select
+        p.ID_ AS "id", p.CATEGORY_ AS "category", p.NAME_ AS "name", p.KEY_ AS "key", p.VERSION_ AS "version", p.DEPLOYMENT_ID_ AS "deploymentId",
+        p.RESOURCE_NAME_ AS "resourceName", p.DGRM_RESOURCE_NAME_ AS "dgrmResourceName", DESCRIPTION_ AS "description", p.SUSPENSION_STATE_ AS "suspensionState",
+        d.DEPLOY_TIME_ as deployTime
+        from act_re_procdef p
+        left join
+        ACT_RE_DEPLOYMENT d
+        on p.DEPLOYMENT_ID_ = d.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE CONCAT(CONCAT('%', #{paramCondition.keywords}),'%')
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and d.DEPLOY_TIME_ &gt;= #{paramCondition.lastStart}
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and d.DEPLOY_TIME_ &lt;= #{paramCondition.lastEnd}
+        </if>
+        order by d.DEPLOY_TIME_ desc
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcdefResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="pgsql">
+        select
+        p.ID_ AS "id", p.CATEGORY_ AS "category", p.NAME_ AS "name", p.KEY_ AS "key", p.VERSION_ AS "version", p.DEPLOYMENT_ID_ AS "deploymentId",
+        p.RESOURCE_NAME_ AS "resourceName", p.DGRM_RESOURCE_NAME_ AS "dgrmResourceName", DESCRIPTION_ AS "description", p.SUSPENSION_STATE_ AS "suspensionState",
+        d.DEPLOY_TIME_ as deployTime
+        from act_re_procdef p
+        left join
+        ACT_RE_DEPLOYMENT d
+        on p.DEPLOYMENT_ID_ = d.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and d.DEPLOY_TIME_ &gt;= to_timestamp(#{paramCondition.lastStart}||'00:00:00','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and d.DEPLOY_TIME_ &lt;= to_timestamp(#{paramCondition.lastEnd}||'23:59:59','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        order by d.DEPLOY_TIME_ desc
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.workflow.modular.model.result.ProcdefResult"
+            parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="oracle">
+        select
+        p.ID_ AS "id", p.CATEGORY_ AS "category", p.NAME_ AS "name", p.KEY_ AS "key", p.VERSION_ AS "version", p.DEPLOYMENT_ID_ AS "deploymentId",
+        p.RESOURCE_NAME_ AS "resourceName", p.DGRM_RESOURCE_NAME_ AS "dgrmResourceName", DESCRIPTION_ AS "description", p.SUSPENSION_STATE_ AS "suspensionState",
+        d.DEPLOY_TIME_ as deployTime
+        from act_re_procdef p
+        left join
+        ACT_RE_DEPLOYMENT d
+        on p.DEPLOYMENT_ID_ = d.ID_
+        where 1=1
+        <if test="paramCondition.keywords!= null and paramCondition.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            p.NAME_ LIKE '%' || #{paramCondition.keywords} || '%'
+            )
+        </if>
+        <if test="paramCondition.lastStart != null and paramCondition.lastStart != ''"><!-- 开始时间检索 -->
+            and d.DEPLOY_TIME_ &gt;= to_date(#{paramCondition.lastStart}||'00:00:00','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="paramCondition.lastEnd != null and paramCondition.lastEnd != ''"><!-- 结束时间检索 -->
+            and d.DEPLOY_TIME_ &lt;= to_date(#{paramCondition.lastEnd}||'23:59:59','yyyy-mm-dd hh24:mi:ss')
+        </if>
+        order by d.DEPLOY_TIME_ desc
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like CONCAT('%',#{paramCondition.name},'%')
+        </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="mssql">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like CONCAT('%',#{paramCondition.name},'%')
+        </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="pgsql">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like '%' || #{paramCondition.name} || '%'
+        </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.workflow.modular.model.params.ProcdefParam" databaseId="oracle">
+        select
+        <include refid="Base_Column_List"/>
+        from act_re_procdef where 1 = 1
+        <if test="paramCondition.name != null and paramCondition.name != ''">
+            and NAME_ like '%' || #{paramCondition.name} || '%'
+        </if>
+    </select>
+
+    <!-- ACT_RU_VARIABLE -->
+    <sql id="arv">
+      ID_ AS "id_",
+      REV_ AS "rev_",
+      TYPE_ AS "type_",
+      NAME_ AS "name_",
+      EXECUTION_ID_ AS "execution_id_",
+      PROC_INST_ID_ AS "proc_inst_id_",
+      TASK_ID_ AS "task_id_",
+      BYTEARRAY_ID_ AS "bytearray_id_",
+      DOUBLE_ AS "double_",
+      LONG_ AS "long_",
+      TEXT_ AS "text_",
+      TEXT2_ AS "text2_"
+    </sql>
+    <!-- ACT_HI_ACTINST -->
+    <sql id="ht">
+      ht.ID_ AS "id_",
+      ht.PROC_DEF_ID_ AS "proc_def_id_",
+      ht.PROC_INST_ID_ AS "proc_inst_id_",
+      ht.EXECUTION_ID_ AS "execution_id_",
+      ht.ACT_ID_ AS "act_id_",
+      ht.TASK_ID_ AS "task_id_",
+      ht.CALL_PROC_INST_ID_ AS "call_proc_inst_id_",
+      ht.ACT_NAME_ AS "act_name_",
+      ht.ACT_TYPE_ AS "act_type_",
+      ht.ASSIGNEE_ AS "assignee_",
+      ht.START_TIME_ AS "start_time_",
+      ht.END_TIME_ AS "end_time_",
+      ht.DURATION_ AS "duration_",
+      ht.DELETE_REASON_ AS "delete_reason_",
+      ht.TENANT_ID_ AS "tenant_id_"
+    </sql>
+    <!-- 流程变量列表 -->
+    <select id="varList" resultType="map">
+        select
+        <include refid="arv"/>
+        from
+        ACT_RU_VARIABLE
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{procInstId}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <select id="varList" resultType="map" databaseId="mssql">
+        select
+        <include refid="arv"/>
+        from
+        ACT_RU_VARIABLE
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{procInstId}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <select id="varList" resultType="map" databaseId="pgsql">
+        select
+        <include refid="arv"/>
+        from
+        ACT_RU_VARIABLE
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{procInstId}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <select id="varList" resultType="map" databaseId="oracle">
+        select
+        <include refid="arv"/>
+        from
+        ACT_RU_VARIABLE
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{procInstId}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <!-- 历史任务节点列表关联历史流程变量表 -->
+    <select id="historyTaskList" resultType="map">
+        select
+        <include refid="ht"/>
+        ,
+        hv.TEXT_ text_
+        from
+        ACT_HI_ACTINST ht
+        left join
+        ACT_HI_VARINST hv
+        on ht.TASK_ID_ = hv.TASK_ID_
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and ht.PROC_INST_ID_ = #{procInstId}
+        </if>
+        order by ht.ID_
+    </select>
+
+    <select id="historyTaskList" resultType="map" databaseId="mssql">
+        select
+        <include refid="ht"/>
+        ,
+        hv.TEXT_ text_
+        from
+        ACT_HI_ACTINST ht
+        left join
+        ACT_HI_VARINST hv
+        on ht.TASK_ID_ = hv.TASK_ID_
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and ht.PROC_INST_ID_ = #{procInstId}
+        </if>
+        order by ht.ID_
+    </select>
+
+    <select id="historyTaskList" resultType="map" databaseId="pgsql">
+        select
+        <include refid="ht"/>
+        ,
+        hv.TEXT_ text_
+        from
+        ACT_HI_ACTINST ht
+        left join
+        ACT_HI_VARINST hv
+        on ht.TASK_ID_ = hv.TASK_ID_
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and ht.PROC_INST_ID_ = #{procInstId}
+        </if>
+        order by ht.ID_
+    </select>
+
+    <select id="historyTaskList" resultType="map" databaseId="oracle">
+        select
+        <include refid="ht"/>
+        ,
+        hv.TEXT_ as "text_"
+        from
+        ACT_HI_ACTINST ht
+        left join
+        ACT_HI_VARINST hv
+        on ht.TASK_ID_ = hv.TASK_ID_
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and ht.PROC_INST_ID_ = #{procInstId}
+        </if>
+        order by ht.ID_
+    </select>
+
+    <!--ACT_HI_VARINST-->
+    <sql id="ahv">
+      ID_ AS "id_",
+      PROC_INST_ID_ AS "proc_inst_id_",
+      EXECUTION_ID_ AS "execution_id_",
+      TASK_ID_ AS "task_id_",
+      NAME_ AS "name_",
+      VAR_TYPE_ AS "var_type_",
+      REV_ AS "REV_",
+      BYTEARRAY_ID_ AS "bytearray_id_",
+      DOUBLE_ AS "double_",
+      LONG_ AS "long_",
+      TEXT_ AS "text_",
+      TEXT2_ AS "text2_",
+      CREATE_TIME_ AS "create_time_",
+      LAST_UPDATED_TIME_  AS "last_updated_time_"
+    </sql>
+    <!-- 历史流程变量列表 -->
+    <select id="historyVariableList" resultType="map">
+        select
+        <include refid="ahv"/>
+        from
+        ACT_HI_VARINST
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{procInstId}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <select id="historyVariableList" resultType="map" databaseId="mssql">
+        select
+        <include refid="ahv"/>
+        from
+        ACT_HI_VARINST
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{procInstId}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <select id="historyVariableList" resultType="map" databaseId="pgsql">
+        select
+        <include refid="ahv"/>
+        from
+        ACT_HI_VARINST
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{procInstId}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+    <select id="historyVariableList" resultType="map" databaseId="oracle">
+        select
+        <include refid="ahv"/>
+        from
+        ACT_HI_VARINST
+        where 1=1
+        <if test="_parameter != null and _parameter != ''"><!-- 流程实例ID -->
+            and PROC_INST_ID_ = #{procInstId}
+            and TASK_ID_ is NULL
+        </if>
+    </select>
+
+</mapper>

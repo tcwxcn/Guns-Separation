@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.i18n.mapper.TranslationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.base.i18n.entity.Translation">
+        <id column="tran_id" property="tranId" />
+        <result column="tran_code" property="tranCode" />
+        <result column="tran_name" property="tranName" />
+        <result column="languages" property="languages" />
+        <result column="tran_value" property="tranValue" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        tran_id AS "tranId", tran_code AS "tranCode", tran_name AS "tranName", languages AS "languages", tran_value AS "tranValue", create_time AS "createTime", create_user AS "createUser", update_time AS "updateTime", update_user AS "updateUser"
+    </sql>
+
+
+    <select id="customList" resultType="cn.stylefeng.guns.base.i18n.model.result.TranslationResult" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like CONCAT('%',#{paramCondition.tranCode},'%')
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like CONCAT('%',#{paramCondition.tranName},'%')
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like CONCAT('%',#{paramCondition.languages},'%')
+            </if>
+    </select>
+
+    <select id="customList" resultType="cn.stylefeng.guns.base.i18n.model.result.TranslationResult"
+            parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="mssql">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like CONCAT('%',#{paramCondition.tranCode},'%')
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like CONCAT('%',#{paramCondition.tranName},'%')
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like CONCAT('%',#{paramCondition.languages},'%')
+            </if>
+    </select>
+
+    <select id="customList" resultType="cn.stylefeng.guns.base.i18n.model.result.TranslationResult"
+            parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="pgsql">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like '%' || #{paramCondition.tranCode} || '%'
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like '%' || #{paramCondition.tranName} || '%'
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like '%' || #{paramCondition.languages} || '%'
+            </if>
+    </select>
+
+    <select id="customList" resultType="cn.stylefeng.guns.base.i18n.model.result.TranslationResult"
+            parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="oracle">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like '%' || #{paramCondition.tranCode} || '%'
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like '%' || #{paramCondition.tranName} || '%'
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like '%' || #{paramCondition.languages} || '%'
+            </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like CONCAT('%',#{paramCondition.tranCode},'%')
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like CONCAT('%',#{paramCondition.tranName},'%')
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like CONCAT('%',#{paramCondition.languages},'%')
+            </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="mssql">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like CONCAT('%',#{paramCondition.tranCode},'%')
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like CONCAT('%',#{paramCondition.tranName},'%')
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like CONCAT('%',#{paramCondition.languages},'%')
+            </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="pgsql">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like '%' || #{paramCondition.tranCode} || '%'
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like '%' || #{paramCondition.tranName} || '%'
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like '%' || #{paramCondition.languages} || '%'
+            </if>
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="oracle">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like '%' || #{paramCondition.tranCode} || '%'
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like '%' || #{paramCondition.tranName} || '%'
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like '%' || #{paramCondition.languages} || '%'
+            </if>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.base.i18n.model.result.TranslationResult" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation
+        <where>
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                tran_code like CONCAT('%',#{paramCondition.tranCode},'%')
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                or tran_name like CONCAT('%',#{paramCondition.tranName},'%')
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                or languages like CONCAT('%',#{paramCondition.languages},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.base.i18n.model.result.TranslationResult"
+            parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="mssql">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation
+        <where>
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                tran_code like CONCAT('%',#{paramCondition.tranCode},'%')
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                or tran_name like CONCAT('%',#{paramCondition.tranName},'%')
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                or languages like CONCAT('%',#{paramCondition.languages},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.base.i18n.model.result.TranslationResult"
+            parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="pgsql">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation
+        <where>
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                tran_code like '%' || #{paramCondition.tranCode} || '%'
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                or tran_name like '%' || #{paramCondition.tranName} || '%'
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                or languages like '%' || #{paramCondition.languages} || '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.base.i18n.model.result.TranslationResult"
+            parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="oracle">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation
+        <where>
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                tran_code like '%' || #{paramCondition.tranCode} || '%'
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                or tran_name like '%' || #{paramCondition.tranName} || '%'
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                or languages like '%' || #{paramCondition.languages} || '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like CONCAT('%',#{paramCondition.tranCode},'%')
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like CONCAT('%',#{paramCondition.tranName},'%')
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like CONCAT('%',#{paramCondition.languages},'%')
+            </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="mssql">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like CONCAT('%',#{paramCondition.tranCode},'%')
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like CONCAT('%',#{paramCondition.tranName},'%')
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like CONCAT('%',#{paramCondition.languages},'%')
+            </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="pgsql">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+        <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+            and tran_code like '%' || #{paramCondition.tranCode} || '%'
+        </if>
+        <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+            and tran_name like '%' || #{paramCondition.tranName} || '%'
+        </if>
+        <if test="paramCondition.languages != null and paramCondition.languages != ''">
+            and languages like '%' || #{paramCondition.languages} || '%'
+        </if>
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.base.i18n.model.params.TranslationParam" databaseId="oracle">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_translation where 1 = 1
+            <if test="paramCondition.tranCode != null and paramCondition.tranCode != ''">
+                and tran_code like '%' || #{paramCondition.tranCode} || '%'
+            </if>
+            <if test="paramCondition.tranName != null and paramCondition.tranName != ''">
+                and tran_name like '%' || #{paramCondition.tranName} || '%'
+            </if>
+            <if test="paramCondition.languages != null and paramCondition.languages != ''">
+                and languages like '%' || #{paramCondition.languages} || '%'
+            </if>
+    </select>
+
+</mapper>
