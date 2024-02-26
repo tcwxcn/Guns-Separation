@@ -39,7 +39,7 @@
         <oshi.version>3.9.1</oshi.version>
         <just.auth.version>1.9.5</just.auth.version>
         <activiti.version>6.0.0</activiti.version>
-        <batik.version>1.14</batik.version>
+        <batik.version>1.17</batik.version>
         <docker.img.version>latest</docker.img.version>
         <kernel.version>2.2.12</kernel.version>
     </properties>
